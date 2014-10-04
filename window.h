@@ -1,13 +1,24 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include "glwidget.h"
 #include <QObject>
 
-class Window : public QObject
+class GLWidget;
+
+class Window : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Window(QObject *parent = 0);
+    explicit Window();
+
+private:
+    glWidget* a;
+
+signals:
+
+public slots:
+
 };
 
 #endif // WINDOW_H
