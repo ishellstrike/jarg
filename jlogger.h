@@ -30,7 +30,9 @@ void loggerHandler(QtMsgType type, const QMessageLogContext &context, const QStr
         default: mT="System Message";
     }
     auto date = QDate::currentDate();
-    out << QString("%1 %2 %4.%5 %6:%7] %8\n").arg(mT).arg(date.toString()).arg(QTime::currentTime().toString()).arg(QTime::currentTime().msec()).arg(context.file).arg(context.line).arg(msg);
+    out << QString("%1 %2 ").arg(mT).arg(date.toString());
+    out << QString("%1.%2 ").arg(QTime::currentTime().toString()).arg(QTime::currentTime().msec());
+    out << QString("%5:%6] %7\n").arg(context.file).arg(context.line).arg(msg);
     if(msg.contains("\n"))
     {
         out << "\n";
