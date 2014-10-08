@@ -13,7 +13,7 @@ public:
     explicit Window();
 
 private:
-    GLWidget* a;
+    GLWidget* a;f
 
 signals:
 
