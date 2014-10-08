@@ -14,8 +14,7 @@ public:
                 return theSingleInstance;
         }
 
-        std::unordered_map<std::string, int> refs;
-        std::vector<BlockData> data;
+        QMap<QString, BlockData> data;
 
         void load();
 

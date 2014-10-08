@@ -7,11 +7,9 @@ class Object
 {
 public:
     Object();
-
-    QString id;
-
-    void Serialize();
-
+    virtual QString id() = 0;
+    virtual QString name() = 0;
+    virtual QString description() = 0;
 };
 
 #endif // OBJECT_H

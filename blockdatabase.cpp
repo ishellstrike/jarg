@@ -16,7 +16,7 @@ void BlockDataBase::load()
 {
     BlockData a = BlockData();
     a.id = "asdasd";
-    data.push_back(a);
+    data.insert("1", a);
 
     QFile saveFile("save.json");
     saveFile.open(QIODevice::WriteOnly | QIODevice::Text);
