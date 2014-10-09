@@ -10,7 +10,9 @@ HEADERS       = window.h \
     creature.h \
     blockdata.h \
     blockdatabase.h \
-    QJsonExtension.h
+    QJsonExtension.h \
+    itemdata.h \
+    itemdatabase.h
 SOURCES       = main.cpp \
                 window.cpp \
     glwidget.cpp \
@@ -19,4 +21,6 @@ SOURCES       = main.cpp \
     item.cpp \
     creature.cpp \
     blockdata.cpp \
-    blockdatabase.cpp
+    blockdatabase.cpp \
+    itemdata.cpp \
+    itemdatabase.cpp
