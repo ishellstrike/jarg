@@ -1,16 +1,6 @@
 #include "blockdatabase.h"
 #include "QJsonExtension.h"
-
-void BlockDataBase::write(QJsonObject &json)
-{
-    for(BlockData part : data)
-    {
-        json["id"] = part.id;
-        json["name"] = part.name;
-        json["description"] = part.description;
-        json["color"] = toJson(part.color);
-    }
-}
+#include "jscript.h"
 
 void BlockDataBase::load()
 {
@@ -21,8 +11,9 @@ void BlockDataBase::load()
     QFile saveFile("save.json");
     saveFile.open(QIODevice::WriteOnly | QIODevice::Text);
     QJsonObject gameObject;
-    write(gameObject);
     QJsonDocument saveDoc(gameObject);
     saveFile.write(saveDoc.toJson());
     saveFile.close();
+
+    JScript::Instance().runScript("test.js");
 }

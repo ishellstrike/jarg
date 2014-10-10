@@ -2,6 +2,7 @@
 #define BLOCKDATA_H
 #include <string>
 #include <QtOpenGL>
+#include <QObject>
 
 class BlockData
 {
@@ -14,6 +15,8 @@ public:
 
     QString name;
     QString description;
+signals:
+public slots:
 };
 
 #endif // BLOCKDATA_H
