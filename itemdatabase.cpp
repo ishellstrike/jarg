@@ -25,8 +25,8 @@ QVector<Flag> extractFlags(QString flag_group_name, QJsonObject one)
 
 QVector<RPart> extractRParts(QString rpart_group_name, QJsonObject one)
 {
-    QVector<Flag> temp;
-    QJsonArray flags = one[flag_group_name].toArray();
+    QVector<RPart> temp;
+    QJsonArray flags = one[rpart_group_name].toArray();
     for (int j = 0; j < flags.size(); j++)
     {
         QJsonArray flag = flags[j].toArray();
