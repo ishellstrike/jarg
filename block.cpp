@@ -3,11 +3,12 @@
 
 Block::Block()
 {
+
 }
 
 QString Block::id()
 {
-    return data.id;
+    return data.id();
 }
 
 QString Block::name()

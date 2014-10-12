@@ -5,7 +5,7 @@
 void BlockDataBase::load()
 {
     BlockData a = BlockData();
-    a.id = "asdasd";
+    a.set_id("asdasd");
     data.insert("1", a);
 
     QFile saveFile("save.json");
@@ -16,4 +16,9 @@ void BlockDataBase::load()
     saveFile.close();
 
     JScript::Instance().runScript("test.js");
+}
+
+BlockDataBase::BlockDataBase()
+{
+
 }

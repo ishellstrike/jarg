@@ -5,12 +5,13 @@
 #include <QApplication>
 #include <QFile>
 #include <QtWidgetsDepends>
+#include "jscript.h"
 
 void ItemDataBase::load()
 {
     QDir items_dir = QDir::current();
     items_dir.cd("data/json/items");
-    QStringList files = items_dir.entryList({"*.json"});
+    QStringList files = items_dir.entryList(QStringList("*.json"));
     for(QString s : files)
     {
         QString ss = items_dir.path() + "/" + s;
@@ -25,7 +26,7 @@ void ItemDataBase::load()
             QJsonObject one = obj[i].toObject();
 
             ItemData temp;
-            temp.id = one["id"].toString();
+            temp.set_id(one["id"].toString());
             temp.name = one["name"].toString();
             temp.description = one["description"].toString();
             QJsonArray flags = one["flags"].toArray();
@@ -38,10 +39,29 @@ void ItemDataBase::load()
                 fl.value = flag[1].toInt();
                 temp.flags.push_back(fl);
             }
-            data.insert(temp.id, temp);
+            data.insert(temp.id(), temp);
         }
         qDebug() << obj.size() << "objects from" << s;
     }
-    int a = 1;
-    a = 2;
+    ItemData d;
+    JScript &eng = JScript::Instance();
+    QScriptValue ret = eng.engine.evaluate("test.js");
+    QScriptValue add = eng.engine.globalObject().property("add");
+    QScriptValue dq = eng.engine.newQObject(&d);
+    eng.engine.globalObject().setProperty("d", dq);
+    ret.call(add, QScriptValueList() << dq);
+    data.insert("asd", d);
+    qDebug() << d.toString();
+    qDebug() << dq.toString();
+}
+
+void ItemDataBase::RegisterApi()
+{
+    api = JScript::Instance().engine.newQObject(this);
+    JScript::Instance().engine.globalObject().setProperty("itemDataBase", api);
+}
+
+ItemDataBase::ItemDataBase()
+{
+
 }

@@ -1,1 +1,1 @@
-(function(a, b) { return a + b; })
+d.id = "asdasdasd"

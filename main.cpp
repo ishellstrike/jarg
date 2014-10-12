@@ -3,6 +3,7 @@
 #include "jlogger.h"
 #include "blockdatabase.h"
 #include "itemdatabase.h"
+#include "jscript.h"
 #include <QtGlobal>
 
 
@@ -13,6 +14,8 @@ int main(int argc, char *argv[])
     qInstallMessageHandler(loggerHandler);
     qDebug() << "Jarg Start";
 
+    JScript::Instance();
+    ItemDataBase::Instance().RegisterApi();
     BlockDataBase::Instance().load();
     ItemDataBase::Instance().load();
 

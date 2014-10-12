@@ -5,10 +5,11 @@
 #include <vector>
 #include <QJsonObject>
 
-class BlockDataBase
+class BlockDataBase : public QObject
 {
+        Q_OBJECT
 public:
-        static BlockDataBase& Instance()
+        static BlockDataBase &Instance()
         {
                 static BlockDataBase theSingleInstance;
                 return theSingleInstance;
@@ -19,9 +20,9 @@ public:
         void load();
 
 private:
-        BlockDataBase(){};
-        BlockDataBase(const BlockDataBase& root);
-        BlockDataBase& operator=(const BlockDataBase&);
+        BlockDataBase();
+        BlockDataBase(const BlockDataBase &root);
+        BlockDataBase& operator=(const BlockDataBase &);
 
         void write(QJsonObject &json);
 };

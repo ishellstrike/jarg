@@ -4,9 +4,12 @@
 #include <QJsonObject>
 #include <QMap>
 #include <QString>
+#include <QScriptValue>
+#include <QObject>
 
-class ItemDataBase
+class ItemDataBase : public QObject
 {
+        Q_OBJECT
 public:
         static ItemDataBase& Instance()
         {
@@ -18,12 +21,12 @@ public:
 
         void load();
 
+        void RegisterApi();
+        QScriptValue api;
 private:
-        ItemDataBase(){};
+        ItemDataBase();
         ItemDataBase(const ItemDataBase& root);
         ItemDataBase& operator=(const ItemDataBase&);
-
-        void write(QJsonObject &json);
 };
 
 #endif // ITEMDATABASE_H

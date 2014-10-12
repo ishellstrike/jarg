@@ -1,3 +1,4 @@
+#include "itemdata.h"
 #include "jscript.h"
 
 #include <QFile>
@@ -26,12 +27,5 @@ void JScript::runScript(const QString &s)
     scriptFile.open(QIODevice::ReadOnly);
     QString readed = scriptFile.readAll();
     QScriptValue fun = engine.evaluate(readed, scriptFileName);
-    QScriptValueList args;
-    args << 1 << 2;
-    int ret = fun.call(QScriptValue(), args).toInt32();
-    if (engine.hasUncaughtException()) {
-         int line = engine.uncaughtExceptionLineNumber();
-         qDebug() << "uncaught exception at line" << line << ":" << ret;
-    }
     scriptFile.close();
 }

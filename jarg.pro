@@ -1,5 +1,5 @@
-QT           += opengl widgets network script
-CONFIG       += c++11
+QT           += opengl widgets network script core
+CONFIG       += c++14
 
 HEADERS       = window.h \
     glwidget.h \
@@ -13,7 +13,8 @@ HEADERS       = window.h \
     QJsonExtension.h \
     itemdata.h \
     itemdatabase.h \
-    jscript.h
+    jscript.h \
+    japi.h
 SOURCES       = main.cpp \
                 window.cpp \
     glwidget.cpp \
@@ -25,7 +26,8 @@ SOURCES       = main.cpp \
     blockdatabase.cpp \
     itemdata.cpp \
     itemdatabase.cpp \
-    jscript.cpp
+    jscript.cpp \
+    japi.cpp
 
 OTHER_FILES += \
     test.js
