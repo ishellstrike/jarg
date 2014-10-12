@@ -8,6 +8,7 @@ struct Flag
 {
     QString name;
     int value;
+    int count;
 };
 
 class ItemData : public QObject

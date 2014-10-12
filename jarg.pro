@@ -15,7 +15,8 @@ HEADERS       = window.h \
     itemdatabase.h \
     jscript.h \
     japi.h \
-    itemgroup.h
+    itemgroup.h \
+    itemrecipe.h
 SOURCES       = main.cpp \
                 window.cpp \
     glwidget.cpp \
@@ -29,11 +30,13 @@ SOURCES       = main.cpp \
     itemdatabase.cpp \
     jscript.cpp \
     japi.cpp \
-    itemgroup.cpp
+    itemgroup.cpp \
+    itemrecipe.cpp
 
 OTHER_FILES += \
     test.js \
     data/json/items/basic.json \
     data/json/items/aaa.json \
     data/js/items/test.js \
-    data/js/items/error.js
+    data/js/items/error.js \
+    data/json/items/test_recipe.json

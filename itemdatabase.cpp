@@ -7,6 +7,23 @@
 #include <QtWidgetsDepends>
 #include "jscript.h"
 
+QVector<Flag> extractFlags(QString flag_group_name, QJsonObject one)
+{
+    QVector<Flag> temp;
+    QJsonArray flags = one[flag_group_name].toArray();
+    for (int j = 0; j < flags.size(); j++)
+    {
+        QJsonArray flag = flags[j].toArray();
+
+        Flag fl;
+        fl.name = flag[0].toString();
+        fl.value = flag[1].toInt();
+        fl.count = flag[2].toInt();
+        temp.push_back(fl);
+    }
+    return temp;
+}
+
 void ItemDataBase::load()
 {
     {
@@ -31,16 +48,7 @@ void ItemDataBase::load()
                 temp.name(one["name"].toString());
                 temp.description(one["description"].toString());
                 temp.weight(one["weight"].toInt());
-                QJsonArray flags = one["flags"].toArray();
-                for (int j = 0; j < flags.size(); j++)
-                {
-                    QJsonArray flag = flags[i].toArray();
-
-                    Flag fl;
-                    fl.name = flag[0].toString();
-                    fl.value = flag[1].toInt();
-                    temp.flags.push_back(fl);
-                }
+                temp.flags = extractFlags("flag",one);
                 if(temp.id() == "") {
                     qDebug() << s << "some object has no id";
                     continue;
