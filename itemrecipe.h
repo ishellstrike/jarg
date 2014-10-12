@@ -11,13 +11,11 @@ class Recipe : public QObject
     Q_OBJECT
 public:
     explicit Recipe(QObject *parent = 0);
-    QVector<Flag> exact_tools;
-    QVector<Flag> exact_items;
-    QVector<Flag> flag_items;
-    QVector<Flag> flag_tools;
+    QVector<RPart> exact_items;
+    QVector<RPart> flag_items;
     QVector<Flag> result;
     QString name;
-    QString desxription;
+    QString description;
     QVector<Flag> reqire;
 
 signals:

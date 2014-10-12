@@ -8,6 +8,12 @@ struct Flag
 {
     QString name;
     int value;
+};
+
+struct RPart
+{
+    QString name;
+    int quality;
     int count;
 };
 

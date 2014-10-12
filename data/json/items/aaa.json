@@ -6,7 +6,7 @@
 	"description":"",
 	"flags":
 	[
-		["flag_hammer", 1]
+        ["flag_hammer", 1]
 	]
 	},{
 	"type":"Item",
@@ -15,7 +15,7 @@
 	"description":"",
 	"flags":
 	[
-		["flag_hammer", 1]
+        ["flag_hammer", 1]
 	]
 	}
 ]
