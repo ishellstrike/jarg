@@ -4,7 +4,7 @@
 
 void BlockDataBase::load()
 {
-    BlockData a = BlockData();
+    BlockData a;
     a.set_id("asdasd");
     data.insert("1", a);
 
@@ -19,6 +19,11 @@ void BlockDataBase::load()
 }
 
 BlockDataBase::BlockDataBase()
+{
+
+}
+
+BlockDataBase::BlockDataBase(const BlockDataBase &root)
 {
 
 }

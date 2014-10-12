@@ -1,0 +1,101 @@
+[
+	{
+		"type":"Item",
+		"id":"soap",
+		"weight":100,
+		"description":""
+	},{
+		"type":"Item",
+		"id":"glasscup",
+		"weight":200,
+		"description":""
+	},{
+		"type":"Item",
+		"id":"papercup",
+		"weight":20,
+		"description":""
+	},{
+		"type":"Item",
+		"id":"dollar20",
+		"weight":1,
+		"description":"",
+		"flags":
+		[
+			["flag_money", 20]
+		]
+	},{
+		"type":"Item",
+		"id":"dollar5",
+		"weight":1,
+		"description":"",
+		"flags":
+		[
+			["flag_money", 5]
+		]
+	},{
+		"type":"Item",
+		"id":"dollar1",
+		"weight":1,
+		"description":"",
+		"flags":
+		[
+			["flag_money", 1]
+		]
+	},{
+		"type":"Item",
+		"id":"dollar100",
+		"weight":1,
+		"description":"",
+		"flags":
+		[
+			["flag_money", 100]
+		]
+	},{
+		"type":"Item",
+		"id":"plate",
+		"weight":200,
+		"description":""
+	},{
+		"type":"Item",
+		"id":"cup",
+		"weight":200,
+		"description":""
+	},{
+		"type":"Item",
+		"id":"pot",
+		"weight":200,
+		"description":""
+	},{
+		"type":"Item",
+		"id":"pan",
+		"weight":200,
+		"description":""
+	},{
+		"type":"Item",
+		"id":"hammer",
+		"weight":200,
+		"description":"",
+		"flags":
+		[
+			["flag_hammer", 4]
+		]
+	},{
+		"type":"Item",
+		"id":"stone_hammer",
+		"weight":200,
+		"description":"",
+		"flags":
+		[
+			["flag_hammer", 2]
+		]
+	},{
+		"type":"Item",
+		"id":"stone",
+		"weight":200,
+		"description":"",
+		"flags":
+		[
+			["flag_hammer", 1]
+		]
+	}
+]

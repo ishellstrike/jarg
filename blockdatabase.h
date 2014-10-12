@@ -22,7 +22,7 @@ public:
 private:
         BlockDataBase();
         BlockDataBase(const BlockDataBase &root);
-        BlockDataBase& operator=(const BlockDataBase &);
+        BlockDataBase &operator=(const BlockDataBase &);
 
         void write(QJsonObject &json);
 };

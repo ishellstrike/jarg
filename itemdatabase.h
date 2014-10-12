@@ -26,7 +26,7 @@ public:
 private:
         ItemDataBase();
         ItemDataBase(const ItemDataBase& root);
-        ItemDataBase& operator=(const ItemDataBase&);
+        ItemDataBase &operator=(const ItemDataBase&);
 };
 
 #endif // ITEMDATABASE_H
