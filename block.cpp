@@ -6,17 +6,26 @@ Block::Block()
 
 }
 
+Block::~Block()
+{
+    data = nullptr;
+
+}
+
 QString Block::id()
 {
-    return data.id();
+    if(data) return "";
+    return data->id();
 }
 
 QString Block::name()
 {
-    return data.name;
+    if(data) return "";
+    return data->name;
 }
 
 QString Block::description()
 {
-    return data.description;
+    if(data) return "";
+    return data->description;
 }

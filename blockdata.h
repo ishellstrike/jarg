@@ -10,7 +10,7 @@ class BlockData : public QObject
     QString m_id;
 
 public:
-    BlockData();
+    explicit BlockData(QObject *parent = nullptr);
     BlockData &operator=(const BlockData &val);
     BlockData(const BlockData &val);
 

@@ -1,5 +1,6 @@
 #include "itemdatabase.h"
 #include "itemdata.h"
+#include "itemrecipe.h"
 #include <QDir>
 #include <QDebug>
 #include <QApplication>
@@ -42,6 +43,11 @@ QVector<RPart> extractRParts(QString rpart_group_name, QJsonObject one)
 
 void ItemDataBase::load()
 {
+
+    ItemData error;
+    error.id("error");
+    error.name("!error!");
+    data.insert("error", error);
     {
         QDir items_dir = QDir::current();
         items_dir.cd("data/json/items");
@@ -71,7 +77,7 @@ void ItemDataBase::load()
                 }
                 data.insert(temp.id(), temp);
             }
-            qDebug() << obj.size() << "objects from" << s;
+            qDebug() << obj.size() << "items from" << s;
         }
     }
 
@@ -100,7 +106,35 @@ void ItemDataBase::load()
             ok++;
             data.insert(d.id(), d);
         }
-        qDebug() << ok << "objects from js";
+        qDebug() << ok << "items from js";
+    }
+
+    {
+        QDir items_dir = QDir::current();
+        items_dir.cd("data/js/recipes");
+        QStringList files = items_dir.entryList(QStringList("*.js"));
+        int ok = 0;
+        for(QString s : files)
+        {
+            QString scriptFileName(items_dir.path() + "/" + s);
+            QFile scriptFile(scriptFileName);
+            scriptFile.open(QIODevice::ReadOnly);
+            QString readed = scriptFile.readAll();
+            scriptFile.close();
+            Recipe d;
+            JScript &eng = JScript::Instance();
+            QScriptValue dq = eng.engine.newQObject(&d);
+            QScriptValue ret = eng.engine.evaluate(readed);
+            QScriptValue add = eng.engine.globalObject().property("set");
+            ret.call(add, QScriptValueList() << dq);
+            if(d.id() == "") {
+                qDebug() << s << " error";
+                continue;
+            }
+            ok++;
+            recipes.insert(d.id(), d);
+        }
+        qDebug() << ok << "recipes from js";
     }
 }
 
@@ -124,3 +158,5 @@ ItemDataBase &ItemDataBase::operator=(const ItemDataBase &)
 {
 
 }
+
+ItemDataBase *ItemDataBase::m_inst = nullptr;

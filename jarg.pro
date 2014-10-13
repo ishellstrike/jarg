@@ -16,7 +16,9 @@ HEADERS       = window.h \
     jscript.h \
     japi.h \
     itemgroup.h \
-    itemrecipe.h
+    itemrecipe.h \
+    sector.h \
+    level.h
 SOURCES       = main.cpp \
                 window.cpp \
     glwidget.cpp \
@@ -31,7 +33,9 @@ SOURCES       = main.cpp \
     jscript.cpp \
     japi.cpp \
     itemgroup.cpp \
-    itemrecipe.cpp
+    itemrecipe.cpp \
+    sector.cpp \
+    level.cpp
 
 OTHER_FILES += \
     test.js \
@@ -39,4 +43,6 @@ OTHER_FILES += \
     data/json/items/aaa.json \
     data/js/items/test.js \
     data/js/items/error.js \
-    data/json/items/test_recipe.json
+    data/json/items/test_recipe.json \
+    data/js/recipes/resipe.js \
+    data/js/items/test2.js

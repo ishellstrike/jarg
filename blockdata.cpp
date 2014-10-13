@@ -1,6 +1,12 @@
 #include "blockdata.h"
 
-BlockData::BlockData()
+BlockData::BlockData(QObject *parent) :
+    QObject(parent),
+    name(),
+    description(),
+    symbol('?'),
+    m_id(),
+    color()
 {
 
 }

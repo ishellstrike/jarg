@@ -4,18 +4,9 @@
 
 void BlockDataBase::load()
 {
-    BlockData a;
-    a.set_id("asdasd");
-    data.insert("1", a);
-
-    QFile saveFile("save.json");
-    saveFile.open(QIODevice::WriteOnly | QIODevice::Text);
-    QJsonObject gameObject;
-    QJsonDocument saveDoc(gameObject);
-    saveFile.write(saveDoc.toJson());
-    saveFile.close();
-
-    JScript::Instance().runScript("test.js");
+    BlockData* a = new BlockData(this);
+    a->set_id("error");
+    data.insert("error", a);
 }
 
 BlockDataBase::BlockDataBase()
@@ -23,7 +14,17 @@ BlockDataBase::BlockDataBase()
 
 }
 
+BlockDataBase::~BlockDataBase()
+{
+    for(BlockData* t : data)
+    {
+        delete t;
+    }
+}
+
 BlockDataBase::BlockDataBase(const BlockDataBase &root)
 {
 
 }
+
+BlockDataBase *BlockDataBase::m_inst = nullptr;

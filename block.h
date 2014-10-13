@@ -7,7 +7,8 @@ class Block : public Object
 {
 public:
     Block();
-    BlockData data;
+    ~Block();
+    BlockData *data;
 
     // Object interface
 public:

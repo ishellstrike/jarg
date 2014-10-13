@@ -4,7 +4,7 @@ ItemData::ItemData() :
     m_name(),
     m_description(),
     m_color(),
-    m_symbol(),
+    m_symbol('?'),
     m_id(),
     flags(),
     m_weight()

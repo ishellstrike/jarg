@@ -4,6 +4,7 @@
 #include "blockdatabase.h"
 #include "itemdatabase.h"
 #include "jscript.h"
+#include "sector.h"
 #include <QtGlobal>
 
 
@@ -15,13 +16,20 @@ int main(int argc, char *argv[])
     qDebug() << "Jarg Start";
 
     JScript::Instance();
-    ItemDataBase::Instance().RegisterApi();
-    BlockDataBase::Instance().load();
-    ItemDataBase::Instance().load();
+    ItemDataBase::instance()->RegisterApi();
+    BlockDataBase::instance()->load();
+    ItemDataBase::instance()->load();
+
+    Sector sec;
+    sec.setBlock(0,0,0, "error");
+    auto t = sec.getBlock(0,0,0);
 
     Window window;
     window.show();
     int a = app.exec();
+
+    BlockDataBase::drop();
+    ItemDataBase::drop();
     qDebug() << "Jarg End";
     return a;
 }
