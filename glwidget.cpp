@@ -3,6 +3,18 @@
 
 #include "glwidget.h"
 
+#define printLog(obj){int infologLength = 0; \
+char infoLog[1024]; \
+if (glIsShader(obj)) \
+glGetShaderInfoLog(obj, 1024, &infologLength, infoLog); \
+else \
+glGetProgramInfoLog(obj, 1024, &infologLength, infoLog); \
+if (infologLength > 0) { \
+qDebug() << infoLog; \
+} else { \
+qDebug() << " no errors"; \
+} }
+
 GLWidget::GLWidget(QWidget *parent, QGLWidget *shareWidget)
     : QGLWidget(parent, shareWidget)
 {
@@ -10,9 +22,7 @@ GLWidget::GLWidget(QWidget *parent, QGLWidget *shareWidget)
     xRot = 0;
     yRot = 0;
     zRot = 0;
-#ifdef QT_OPENGL_ES_2
     program = 0;
-#endif
 }
 
 GLWidget::~GLWidget()
@@ -49,11 +59,8 @@ void GLWidget::initializeGL()
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
-#ifndef QT_OPENGL_ES_2
     glEnable(GL_TEXTURE_2D);
-#endif
 
-#ifdef QT_OPENGL_ES_2
 
 #define PROGRAM_VERTEX_ATTRIBUTE 0
 #define PROGRAM_TEXCOORD_ATTRIBUTE 1
@@ -90,8 +97,6 @@ void GLWidget::initializeGL()
 
     program->bind();
     program->setUniformValue("texture", 0);
-
-#endif
 }
 
 void GLWidget::paintGL()
@@ -99,20 +104,6 @@ void GLWidget::paintGL()
     qglClearColor(clearColor);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-#if !defined(QT_OPENGL_ES_2)
-
-    glLoadIdentity();
-    glTranslatef(0.0f, 0.0f, -10.0f);
-    glRotatef(xRot / 16.0f, 1.0f, 0.0f, 0.0f);
-    glRotatef(yRot / 16.0f, 0.0f, 1.0f, 0.0f);
-    glRotatef(zRot / 16.0f, 0.0f, 0.0f, 1.0f);
-
-    glVertexPointer(3, GL_FLOAT, 0, vertices.constData());
-    glTexCoordPointer(2, GL_FLOAT, 0, texCoords.constData());
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-#else
 
     QMatrix4x4 m;
     m.ortho(-0.5f, +0.5f, +0.5f, -0.5f, 4.0f, 15.0f);
@@ -128,8 +119,6 @@ void GLWidget::paintGL()
         (PROGRAM_VERTEX_ATTRIBUTE, vertices.constData());
     program->setAttributeArray
         (PROGRAM_TEXCOORD_ATTRIBUTE, texCoords.constData());
-
-#endif
 
     for (int i = 0; i < 6; ++i) {
         glBindTexture(GL_TEXTURE_2D, textures[i]);

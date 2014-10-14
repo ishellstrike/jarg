@@ -3,6 +3,7 @@
 
 #include <QtWidgets>
 #include <QGLWidget>
+#include <QGLShaderProgram>
 
 QT_FORWARD_DECLARE_CLASS(QGLShaderProgram);
 
@@ -41,9 +42,7 @@ private:
     GLuint textures[6];
     QVector<QVector3D> vertices;
     QVector<QVector2D> texCoords;
-#ifdef QT_OPENGL_ES_2
     QGLShaderProgram *program;
-#endif
 };
 
 #endif

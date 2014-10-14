@@ -21,6 +21,7 @@ public:
                     m_inst = new BlockDataBase();
 
                 mutex.unlock();
+                qDebug() << "making BlockDataBase instance";
             }
             return m_inst;
         }
@@ -32,6 +33,7 @@ public:
             delete m_inst;
             m_inst = nullptr;
             mutex.unlock();
+            qDebug() << "droping BlockDataBase instance";
         }
 
         static BlockData *getBlockData(const QString &id)

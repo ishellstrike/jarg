@@ -1,8 +1,8 @@
 (function set(d)
 {
-    d.id = "asdasdasd2";
-    d.name = "123123";
-    d.symbol = '1';
-    d.weight = 123;
-    //comment
+    d.id = itemDataBase.name;
+    d.name = "setter";
+
+    var a = itemDataBase.newItemData("2apiapiapi2");
+    a.name = "jast created!";
 })

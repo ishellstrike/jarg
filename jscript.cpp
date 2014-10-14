@@ -29,3 +29,5 @@ void JScript::runScript(const QString &s)
     QScriptValue fun = engine.evaluate(readed, scriptFileName);
     scriptFile.close();
 }
+
+JScript *JScript::m_inst = nullptr;

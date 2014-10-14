@@ -44,9 +44,9 @@ QVector<RPart> extractRParts(QString rpart_group_name, QJsonObject one)
 void ItemDataBase::load()
 {
 
-    ItemData error;
-    error.id("error");
-    error.name("!error!");
+    ItemData *error = new ItemData();
+    error->id("error");
+    error->name("!error!");
     data.insert("error", error);
     {
         QDir items_dir = QDir::current();
@@ -65,17 +65,17 @@ void ItemDataBase::load()
             {
                 QJsonObject one = obj[i].toObject();
 
-                ItemData temp;
-                temp.id(one["id"].toString());
-                temp.name(one["name"].toString());
-                temp.description(one["description"].toString());
-                temp.weight(one["weight"].toInt());
-                temp.flags = extractFlags("flag",one);
-                if(temp.id() == "") {
+                ItemData *temp = new ItemData();
+                temp->id(one["id"].toString());
+                temp->name(one["name"].toString());
+                temp->description(one["description"].toString());
+                temp->weight(one["weight"].toInt());
+                temp->flags = extractFlags("flag", one);
+                if(temp->id() == "") {
                     qDebug() << s << "some object has no id";
                     continue;
                 }
-                data.insert(temp.id(), temp);
+                data.insert(temp->id(), temp);
             }
             qDebug() << obj.size() << "items from" << s;
         }
@@ -93,18 +93,18 @@ void ItemDataBase::load()
             scriptFile.open(QIODevice::ReadOnly);
             QString readed = scriptFile.readAll();
             scriptFile.close();
-            ItemData d;
-            JScript &eng = JScript::Instance();
-            QScriptValue dq = eng.engine.newQObject(&d);
-            QScriptValue ret = eng.engine.evaluate(readed);
-            QScriptValue add = eng.engine.globalObject().property("set");
+            ItemData *d = new ItemData();
+            JScript *eng = JScript::instance();
+            QScriptValue dq = eng->engine.newQObject(d);
+            QScriptValue ret = eng->engine.evaluate(readed);
+            QScriptValue add = eng->engine.globalObject().property("set");
             ret.call(add, QScriptValueList() << dq);
-            if(d.id() == "") {
+            if(d->id() == "") {
                 qDebug() << s << " error";
                 continue;
             }
             ok++;
-            data.insert(d.id(), d);
+            data.insert(d->id(), d);
         }
         qDebug() << ok << "items from js";
     }
@@ -121,18 +121,18 @@ void ItemDataBase::load()
             scriptFile.open(QIODevice::ReadOnly);
             QString readed = scriptFile.readAll();
             scriptFile.close();
-            Recipe d;
-            JScript &eng = JScript::Instance();
-            QScriptValue dq = eng.engine.newQObject(&d);
-            QScriptValue ret = eng.engine.evaluate(readed);
-            QScriptValue add = eng.engine.globalObject().property("set");
+            Recipe *d = new Recipe();
+            JScript *eng = JScript::instance();
+            QScriptValue dq = eng->engine.newQObject(d);
+            QScriptValue ret = eng->engine.evaluate(readed);
+            QScriptValue add = eng->engine.globalObject().property("set");
             ret.call(add, QScriptValueList() << dq);
-            if(d.id() == "") {
+            if(d->id() == "") {
                 qDebug() << s << " error";
                 continue;
             }
             ok++;
-            recipes.insert(d.id(), d);
+            recipes.insert(d->id(), d);
         }
         qDebug() << ok << "recipes from js";
     }
@@ -140,13 +140,26 @@ void ItemDataBase::load()
 
 void ItemDataBase::RegisterApi()
 {
-    api = JScript::Instance().engine.newQObject(this);
-    JScript::Instance().engine.globalObject().setProperty("itemDataBase", api);
+    api = JScript::instance()->engine.newQObject(this);
+    JScript::instance()->engine.globalObject().setProperty("itemDataBase", api);
 }
 
 ItemDataBase::ItemDataBase()
 {
 
+}
+
+ItemDataBase::~ItemDataBase()
+{
+    for(ItemData* t : data)
+    {
+        delete t;
+    }
+
+    for(Recipe* t : recipes)
+    {
+        delete t;
+    }
 }
 
 ItemDataBase::ItemDataBase(const ItemDataBase &root)

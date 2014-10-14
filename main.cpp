@@ -15,8 +15,9 @@ int main(int argc, char *argv[])
     qInstallMessageHandler(loggerHandler);
     qDebug() << "Jarg Start";
 
-    JScript::Instance();
+    JScript::instance();
     ItemDataBase::instance()->RegisterApi();
+    ItemDataBase::instance()->name("apiapiapi");
     BlockDataBase::instance()->load();
     ItemDataBase::instance()->load();
 
@@ -28,8 +29,9 @@ int main(int argc, char *argv[])
     window.show();
     int a = app.exec();
 
-    BlockDataBase::drop();
     ItemDataBase::drop();
+    BlockDataBase::drop();
+    JScript::drop();
     qDebug() << "Jarg End";
     return a;
 }
