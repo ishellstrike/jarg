@@ -4,5 +4,7 @@
     d.name = "setter";
 
     var a = itemDataBase.newItemData("2apiapiapi2");
-    a.name = "jast created!";
+    a.name = "just created!";
+
+    a = itemDataBase.newItemData("2apiapiapi2");
 })

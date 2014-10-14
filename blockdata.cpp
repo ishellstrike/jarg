@@ -2,11 +2,13 @@
 
 BlockData::BlockData(QObject *parent) :
     QObject(parent),
-    name(),
-    description(),
-    symbol('?'),
+    m_name(),
+    m_description(),
+    m_symbol('?'),
     m_id(),
-    color()
+    m_color(),
+    m_height(1),
+    m_texture("")
 {
 
 }
@@ -16,19 +18,23 @@ BlockData &BlockData::operator=(const BlockData &val)
     if (this != &val)
     {
         m_id = val.m_id;
-        name = val.name;
-        description = val.description;
-        color = val.color;
-        symbol = val.symbol;
+        m_name = val.m_name;
+        m_description = val.m_description;
+        m_color = val.m_color;
+        m_symbol = val.m_symbol;
+        m_height = val.m_height;
+        m_texture = val.m_texture;
     }
     return *this;
 }
 
 BlockData::BlockData(const BlockData &val) :
-    name(val.name),
-    description(val.description),
-    color(val.color),
-    symbol(val.symbol),
-    m_id(val.m_id)
+    m_name(val.m_name),
+    m_description(val.m_description),
+    m_color(val.m_color),
+    m_symbol(val.m_symbol),
+    m_id(val.m_id),
+    m_height(val.m_height),
+    m_texture(val.m_texture)
 {
 }

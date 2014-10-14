@@ -4,9 +4,33 @@
 
 void BlockDataBase::load()
 {
-    BlockData* a = new BlockData(this);
-    a->set_id("error");
-    data.insert("error", a);
+    {
+        QDir items_dir = QDir::current();
+        items_dir.cd("data/js/blocks");
+        QStringList files = items_dir.entryList(QStringList("*.js"));
+        int ok = 0;
+        for(QString s : files)
+        {
+            QString scriptFileName(items_dir.path() + "/" + s);
+            QFile scriptFile(scriptFileName);
+            scriptFile.open(QIODevice::ReadOnly);
+            QString readed = scriptFile.readAll();
+            scriptFile.close();
+            BlockData *d = new BlockData();
+            JScript *eng = JScript::instance();
+            QScriptValue dq = eng->engine.newQObject(d);
+            QScriptValue ret = eng->engine.evaluate(readed);
+            QScriptValue add = eng->engine.globalObject().property("set");
+            ret.call(add, QScriptValueList() << dq);
+            if(d->id() == "") {
+                qDebug() << s << " error";
+                continue;
+            }
+            ok++;
+            data.insert(d->id(), d);
+        }
+        qDebug() << ok << "blocks from js";
+    }
 }
 
 BlockDataBase::BlockDataBase()

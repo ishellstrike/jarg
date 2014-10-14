@@ -2,6 +2,7 @@
 #define SECTOR_H
 #include "block.h"
 #include <QObject>
+#include <QGLWidget>
 #define RX 25
 #define RY 25
 #define RZ 10
@@ -15,13 +16,14 @@ class Sector : public QObject
 public:
     Sector();
     virtual ~Sector();
+    void Render(QGLWidget *parent);
 
 signals:
 
 public slots:
-    void setBlock(int x, int y, int z, const QString &id);
-    void setBlock(int x, int y, int z, const Block &block);
-    const Block *getBlock(int x, int y, int z) const;
+    void setBlock(int x, int y, const QString &id);
+    void setBlock(int x, int y, const Block &block);
+    const Block *getBlock(int x, int y) const;
 };
 
 #endif // SECTOR_H

@@ -18,7 +18,10 @@ HEADERS       = window.h \
     itemgroup.h \
     itemrecipe.h \
     sector.h \
-    level.h
+    level.h \
+    jtexture.h \
+    jatlas.h \
+    vertex.h
 SOURCES       = main.cpp \
                 window.cpp \
     glwidget.cpp \
@@ -35,7 +38,10 @@ SOURCES       = main.cpp \
     itemgroup.cpp \
     itemrecipe.cpp \
     sector.cpp \
-    level.cpp
+    level.cpp \
+    jtexture.cpp \
+    jatlas.cpp \
+    vertex.cpp
 
 OTHER_FILES += \
     test.js \
@@ -45,4 +51,6 @@ OTHER_FILES += \
     data/js/items/error.js \
     data/json/items/test_recipe.json \
     data/js/recipes/resipe.js \
-    data/js/items/test2.js
+    data/js/items/test2.js \
+    data/js/blocks/test.js \
+    data/js/blocks/error.js

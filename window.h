@@ -11,6 +11,7 @@ class Window : public QWidget
     Q_OBJECT
 public:
     explicit Window();
+    ~Window();
 
 private:
     GLWidget* a;

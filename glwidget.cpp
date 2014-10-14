@@ -2,23 +2,12 @@
 #include <QtOpenGL>
 
 #include "glwidget.h"
-
-#define printLog(obj){int infologLength = 0; \
-char infoLog[1024]; \
-if (glIsShader(obj)) \
-glGetShaderInfoLog(obj, 1024, &infologLength, infoLog); \
-else \
-glGetProgramInfoLog(obj, 1024, &infologLength, infoLog); \
-if (infologLength > 0) { \
-qDebug() << infoLog; \
-} else { \
-qDebug() << " no errors"; \
-} }
+#include "jatlas.h"
 
 GLWidget::GLWidget(QWidget *parent, QGLWidget *shareWidget)
     : QGLWidget(parent, shareWidget)
 {
-    clearColor = Qt::black;
+    clearColor = Qt::red;
     xRot = 0;
     yRot = 0;
     zRot = 0;
@@ -115,10 +104,8 @@ void GLWidget::paintGL()
     program->setUniformValue("matrix", m);
     program->enableAttributeArray(PROGRAM_VERTEX_ATTRIBUTE);
     program->enableAttributeArray(PROGRAM_TEXCOORD_ATTRIBUTE);
-    program->setAttributeArray
-        (PROGRAM_VERTEX_ATTRIBUTE, vertices.constData());
-    program->setAttributeArray
-        (PROGRAM_TEXCOORD_ATTRIBUTE, texCoords.constData());
+    program->setAttributeArray(PROGRAM_VERTEX_ATTRIBUTE, vertices.constData());
+    program->setAttributeArray(PROGRAM_TEXCOORD_ATTRIBUTE, texCoords.constData());
 
     for (int i = 0; i < 6; ++i) {
         glBindTexture(GL_TEXTURE_2D, textures[i]);
@@ -130,17 +117,6 @@ void GLWidget::resizeGL(int width, int height)
 {
     int side = qMin(width, height);
     glViewport((width - side) / 2, (height - side) / 2, side, side);
-
-#if !defined(QT_OPENGL_ES_2)
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-#ifndef QT_OPENGL_ES
-    glOrtho(-0.5, +0.5, +0.5, -0.5, 4.0, 15.0);
-#else
-    glOrthof(-0.5, +0.5, +0.5, -0.5, 4.0, 15.0);
-#endif
-    glMatrixMode(GL_MODELVIEW);
-#endif
 }
 
 void GLWidget::mousePressEvent(QMouseEvent *event)
@@ -178,9 +154,9 @@ void GLWidget::makeObject()
     };
 
     for (int j=0; j < 6; ++j) {
-        textures[j] = bindTexture
-            (QPixmap(QString(":/images/side%1.png").arg(j + 1)), GL_TEXTURE_2D);
+        textures[j] = bindTexture(QPixmap(QString("data/textures/side%1.png").arg(j + 1)), GL_TEXTURE_2D);
     }
+    textures[3] = bindTexture(*JAtlas::instance()->image, GL_TEXTURE_2D);
 
     for (int i = 0; i < 6; ++i) {
         for (int j = 0; j < 4; ++j) {

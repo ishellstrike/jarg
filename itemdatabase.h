@@ -4,7 +4,7 @@
 #include "itemrecipe.h"
 #include "jscript.h"
 #include <QJsonObject>
-#include <QMap>
+#include <QHash>
 #include <QString>
 #include <QScriptValue>
 #include <QObject>
@@ -42,8 +42,8 @@ public:
             qDebug() << "droping ItemDataBase instance";
         }
 
-        QMap<QString, ItemData*> data;
-        QMap<QString, Recipe*> recipes;
+        QHash<QString, ItemData *> data;
+        QHash<QString, Recipe *> recipes;
         Q_PROPERTY(QString name READ name WRITE name)
 
         void load();
