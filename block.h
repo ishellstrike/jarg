@@ -10,7 +10,6 @@ public:
     Block();
     ~Block();
     Q_PROPERTY(BlockData* data READ data WRITE data);
-    QVector2D source();
 
     // Object interface
     QString id();
@@ -26,11 +25,9 @@ public slots:
     void data(BlockData* arg)
     {
         m_data = arg;
-        m_source = JAtlas::instance()->sources[arg->texture()];
     }
 
 private:
-    QVector2D m_source;
     BlockData* m_data;
 };
 

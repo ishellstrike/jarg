@@ -3,6 +3,8 @@
 #include "block.h"
 #include <QObject>
 #include <QGLWidget>
+#include <QVector>
+#include "vertex.h"
 #define RX 25
 #define RY 25
 #define RZ 10
@@ -13,11 +15,15 @@ class Sector : public QObject
 {
     Q_OBJECT
     Block *m_blocks;
+    QVector<Vertex> geom;
+    QVector<GLuint> indeces;
+    QVector2D offset;
 public:
     Sector();
     virtual ~Sector();
     void Render(QGLWidget *parent);
 
+    void Rebuild();
 signals:
 
 public slots:

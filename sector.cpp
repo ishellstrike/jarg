@@ -17,96 +17,27 @@
 
 void AddBlockGeom(int i, int j)
 {
-//    Block *block = m_blocks[XY(i,j)];
-//    var h = block->height();
-//    //var l = (short)(c.Count/6*4);
-//    if (j == RY - 1 || !m_blocks[XY(i,j+1)].isWallmaker() || m_blocks[(XY(i,j+1)].isWallmaker() < 32)
-//    {
-//        b.Add(Vertex(QVector3D(i, j + 1, h), BACK,
-//                     block.source()));
-//        b.Add(Vertex(QVector3D(i + 1, j + 1, h), BACK,
-//                     block.Source + QVector2D(Atlases.Instance.SpriteWidth, 0)));
-//        b.Add(Vertex(QVector3D(i, j + 1, 0), BACK,
-//                     block.Source + QVector2D(0, Atlases.Instance.SpriteHeight)));
-//        b.Add(Vertex(QVector3D(i + 1, j + 1, 0), BACK,
-//                     block.Source + QVector2D(Atlases.Instance.SpriteWidth, Atlases.Instance.SpriteHeight)));
-//        c.Add((short) (l + 0));
-//        c.Add((short) (l + 1));
-//        c.Add((short) (l + 2));
-//        c.Add((short) (l + 3));
-//        c.Add((short) (l + 2));
-//        c.Add((short) (l + 1));
-//        l += 4;
-//    }
-//    if (j == 0 || !m_blocks[XY(i,j-1)].isWallmaker() || m_blocks[XY(i,j-1)].isWallmaker() < 32)
-//    {
-//        b.Add(Vertex(QVector3D(i, j, h), RIGHT,
-//                     block.Source));
-//        b.Add(Vertex(QVector3D(i, j, 0), RIGHT,
-//                     block.Source + QVector2D(0, Atlases.Instance.SpriteHeight)));
-//        b.Add(Vertex(QVector3D(i + 1, j, h), RIGHT,
-//                     block.Source + QVector2D(Atlases.Instance.SpriteWidth, 0)));
-//        b.Add(Vertex(QVector3D(i + 1, j, 0), RIGHT,
-//                     block.Source + QVector2D(Atlases.Instance.SpriteWidth, Atlases.Instance.SpriteHeight)));
-//        c.Add((short) (l + 0));
-//        c.Add((short) (l + 1));
-//        c.Add((short) (l + 2));
-//        c.Add((short) (l + 2));
-//        c.Add((short) (l + 1));
-//        c.Add((short) (l + 3));
-//        l += 4;
-//    }
-//    if (i == 0 || !m_blocks[XY(i-1,j)].isWallmaker() || m_blocks[XY(i-1,j)].isWallmaker() < 32)
-//    {
-//        b.Add(Vertex(QVector3D(i, j, h), FORWARD,
-//                     block.Source));
-//        b.Add(Vertex(QVector3D(i, j + 1, h), FORWARD,
-//                     block.Source + new QVector2D(Atlases.Instance.SpriteWidth, 0)));
-//        b.Add(Vertex(QVector3D(i, j, 0), FORWARD,
-//                     block.Source + new QVector2D(0, Atlases.Instance.SpriteHeight)));
-//        b.Add(Vertex(QVector3D(i, j + 1, 0), FORWARD,
-//                     block.Source + QVector2D(Atlases.Instance.SpriteWidth, Atlases.Instance.SpriteHeight)));
-//        c.Add((short)(l + 0));
-//        c.Add((short)(l + 1));
-//        c.Add((short)(l + 2));
-//        c.Add((short)(l + 1));
-//        c.Add((short)(l + 3));
-//        c.Add((short)(l + 2));
-//        l += 4;
-//    }
-//    if (i == RX - 1 || !m_blocks[XY(i+1,j)].Data.Wallmaker || m_blocks[XY(i+1,j)].Data.Height < 32)
-//    {
-//        b.Add(Vertex(QVector3D(i + 1, j, h), LEFT,
-//                     block.Source));
-//        b.Add(Vertex(QVector3D(i + 1, j, 0), LEFT,
-//                     block.Source + new Vector2(0, Atlases.Instance.SpriteHeight)));
-//        b.Add(Vertex(QVector3D(i + 1, j + 1, h), LEFT,
-//                     block.Source + new Vector2(Atlases.Instance.SpriteWidth, 0)));
-//        b.Add(Vertex(QVector3D(i + 1, j + 1, 0), LEFT,
-//                     block.Source + QVector2D(Atlases.Instance.SpriteWidth, Atlases.Instance.SpriteHeight)));
-//        c.Add((short)(l + 0));
-//        c.Add((short)(l + 1));
-//        c.Add((short)(l + 2));
-//        c.Add((short)(l + 2));
-//        c.Add((short)(l + 1));
-//        c.Add((short)(l + 3));
-//        l += 4;
-//    }
-//    b.Add(Vertex(QVector3D(i, j, h), UP,
-//                 block.Source));
-//    b.Add(Vertex(QVector3D(i + 1, j, h), UP,
-//                 block.Source + new Vector2(Atlases.Instance.SpriteWidth, 0)));
-//    b.Add(Vertex(QVector3D(i, j + 1, h), UP,
-//                 lock.Source + new Vector2(0, Atlases.Instance.SpriteHeight)));
-//    b.Add(Vertex(QVector3D(i + 1, j + 1, h), UP,
-//                 block.Source + QVector2D(Atlases.Instance.SpriteWidth, Atlases.Instance.SpriteHeight)));
-//    c.Add((short) (l + 0));
-//    c.Add((short) (l + 1));
-//    c.Add((short) (l + 2));
-//    c.Add((short) (l + 1));
-//    c.Add((short) (l + 3));
-//    c.Add((short) (l + 2));
-//    l += 4;
+
+}
+
+void Sector::Rebuild()
+{
+    auto comp_off = offset*QVector3D(RX, RY);
+    for(int i =0;i<RX;i++)
+        for(int j=0;j<RY;j++)
+        {
+            auto block_data = m_blocks[XY(i,j)].data();
+            auto m_source = JAtlas::instance()->sources[block_data->texture()];
+
+            int last = geom.size();
+
+            geom.push_back(Vertex(comp_off + QVector3D(i, 0, j), UP, QVector2D()));
+            geom.push_back(Vertex(comp_off + QVector3D(i + 1, 0, j), UP, QVector2D()));
+            geom.push_back(Vertex(comp_off + QVector3D(i, 0, j + 1), UP, QVector2D()));
+            geom.push_back(Vertex(comp_off + QVector3D(i + 1, 0, j + 1), UP, QVector2D()));
+
+            indeces.push_back({last, last + 1, last + 2, last + 1, last + 3, last + 2});
+        }
 }
 
 Sector::Sector()

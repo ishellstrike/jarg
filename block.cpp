@@ -2,8 +2,7 @@
 #include "object.h"
 
 Block::Block() :
-    m_data(nullptr),
-    m_source()
+    m_data(nullptr)
 {
 
 }
@@ -11,11 +10,6 @@ Block::Block() :
 Block::~Block()
 {
     m_data = nullptr;
-}
-
-QVector2D Block::source()
-{
-    return m_source;
 }
 
 QString Block::id()
