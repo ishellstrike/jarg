@@ -22,7 +22,7 @@ void AddBlockGeom(int i, int j)
 
 void Sector::Rebuild()
 {
-    auto comp_off = offset*QVector3D(RX, RY);
+    auto comp_off = offset*QVector3D(RX, 0, RY);
     for(int i =0;i<RX;i++)
         for(int j=0;j<RY;j++)
         {
@@ -36,7 +36,12 @@ void Sector::Rebuild()
             geom.push_back(Vertex(comp_off + QVector3D(i, 0, j + 1), UP, QVector2D()));
             geom.push_back(Vertex(comp_off + QVector3D(i + 1, 0, j + 1), UP, QVector2D()));
 
-            indeces.push_back({last, last + 1, last + 2, last + 1, last + 3, last + 2});
+            indeces.push_back(last);
+            indeces.push_back(last + 1);
+            indeces.push_back(last + 2);
+            indeces.push_back(last + 1);
+            indeces.push_back(last + 3);
+            indeces.push_back(last + 2);
         }
 }
 
