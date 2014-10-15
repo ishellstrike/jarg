@@ -4,13 +4,15 @@
 #include <QObject>
 #include <QVector>
 #include "sector.h"
+#include "sectorlist.h"
 
-class Level : public QObject
+class LevelRenderer : public QObject
 {
     Q_OBJECT
+    SectorList *toRender;
 public:
-    explicit Level(QObject *parent = 0);
-    QVector<Sector *> active;
+    explicit LevelRenderer(QObject *parent = 0);
+    void Render();
 signals:
 
 public slots:

@@ -4,6 +4,7 @@
 #include <QtOpenGL>
 #include <QVector3D>
 #include "jatlas.h"
+#include <QGLShaderProgram>
 
 #define XY(x,y)(x*RY + y)
 #define BACK QVector3D(0, 0, -1)
@@ -55,9 +56,9 @@ Sector::~Sector()
     delete[] m_blocks;
 }
 
-void Sector::Render(QGLWidget *parent)
+void Sector::Render(GLWidget *parent)
 {
-
+    parent->program-
 }
 
 void Sector::setBlock(int x, int y, const QString &id)

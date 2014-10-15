@@ -1,6 +1,11 @@
 #include "level.h"
 
-Level::Level(QObject *parent) :
+LevelRenderer::LevelRenderer(QObject *parent) :
     QObject(parent)
 {
+}
+
+void LevelRenderer::Render()
+{
+
 }

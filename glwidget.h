@@ -19,6 +19,7 @@ public:
     QSize sizeHint() const;
     void rotateBy(int xAngle, int yAngle, int zAngle);
     void setClearColor(const QColor &color);
+    QGLShaderProgram *program;
 
 signals:
     void clicked();
@@ -42,7 +43,7 @@ private:
     GLuint textures[6];
     QVector<QVector3D> vertices;
     QVector<QVector2D> texCoords;
-    QGLShaderProgram *program;
+
 };
 
 #endif

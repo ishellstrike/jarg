@@ -22,7 +22,8 @@ HEADERS       = window.h \
     jtexture.h \
     jatlas.h \
     vertex.h \
-    levelworker.h
+    levelworker.h \
+    sectorlist.h
 SOURCES       = main.cpp \
                 window.cpp \
     glwidget.cpp \
@@ -43,7 +44,8 @@ SOURCES       = main.cpp \
     jtexture.cpp \
     jatlas.cpp \
     vertex.cpp \
-    levelworker.cpp
+    levelworker.cpp \
+    sectorlist.cpp
 
 OTHER_FILES += \
     test.js \

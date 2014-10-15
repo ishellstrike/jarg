@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QGLWidget>
 #include <QVector>
+#include "glwidget.h"
 #include "vertex.h"
 #define RX 25
 #define RY 25
@@ -21,7 +22,7 @@ class Sector : public QObject
 public:
     Sector();
     virtual ~Sector();
-    void Render(QGLWidget *parent);
+    void Render(GLWidget *parent);
 
     void Rebuild();
 signals:
