@@ -1,10 +1,4 @@
 #include "sector.h"
-#include "blockdatabase.h"
-#include "vertex.h"
-#include <QtOpenGL>
-#include <QVector3D>
-#include "jatlas.h"
-#include <QGLShaderProgram>
 
 #define XY(x,y)(x*RY + y)
 #define BACK QVector3D(0, 0, -1)
@@ -16,12 +10,15 @@
 #define UP QVector3D(0, 1, 0)
 #define ZERO QVector3D(0, 0, 0)
 
+#define PROGRAM_VERTEX_ATTRIBUTE 0
+#define PROGRAM_TEXCOORD_ATTRIBUTE 1
+
 void AddBlockGeom(int i, int j)
 {
 
 }
 
-void Sector::Rebuild()
+void Sector::Rebuild(GLWidget *parent)
 {
     auto comp_off = offset*QVector3D(RX, 0, RY);
     for(int i =0;i<RX;i++)
@@ -44,9 +41,19 @@ void Sector::Rebuild()
             indeces.push_back(last + 3);
             indeces.push_back(last + 2);
         }
+
+    m_vao = new QOpenGLVertexArrayObject( this );
+    m_vao->create();
+    m_vao->bind();
+
+    parent->program->enableAttributeArray(PROGRAM_VERTEX_ATTRIBUTE);
+    parent->program->enableAttributeArray(PROGRAM_TEXCOORD_ATTRIBUTE);
+    parent->program->setAttributeArray(PROGRAM_VERTEX_ATTRIBUTE, GL_FLOAT, geom.constData(), 3, sizeof(Vertex));
+    parent->program->setAttributeBuffer(PROGRAM_TEXCOORD_ATTRIBUTE, GL_FLOAT, sizeof(QVector3D), 2, sizeof(Vertex));
 }
 
-Sector::Sector()
+Sector::Sector() :
+    m_vao(nullptr)
 {
     m_blocks = new Block[RXYZ];
 }
@@ -54,11 +61,23 @@ Sector::Sector()
 Sector::~Sector()
 {
     delete[] m_blocks;
+    m_blocks = nullptr;
+    if(m_vao)
+    {
+        delete m_vao;
+        m_vao = nullptr;
+    }
 }
 
-void Sector::Render(GLWidget *parent)
+void Sector::render(GLWidget *parent)
 {
-    parent->program-
+    QMatrix4x4 m;
+    m.ortho(-0.5f, +0.5f, +0.5f, -0.5f, 4.0f, 15.0f);
+    m.translate(0.0f, 0.0f, -10.0f);
+
+    parent->program->setUniformValue("matrix", m);
+
+    glDrawElements(GL_TRIANGLE_FAN, geom.size(), GL_UNSIGNED_INT, indeces.constData());
 }
 
 void Sector::setBlock(int x, int y, const QString &id)

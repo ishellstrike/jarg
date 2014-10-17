@@ -86,6 +86,8 @@ void GLWidget::initializeGL()
 
     program->bind();
     program->setUniformValue("texture", 0);
+
+    level->preload(0, 0);
 }
 
 void GLWidget::paintGL()
@@ -108,8 +110,8 @@ void GLWidget::paintGL()
     program->setAttributeArray(PROGRAM_TEXCOORD_ATTRIBUTE, texCoords.constData());
 
     for (int i = 0; i < 6; ++i) {
-       // glBindTexture(GL_TEXTURE_2D, textures[i]);
-       // glDrawArrays(GL_TRIANGLE_FAN, i * 4, 4);
+        glBindTexture(GL_TEXTURE_2D, textures[i]);
+        glDrawArrays(GL_TRIANGLE_FAN, i * 4, 4);
     }
 }
 

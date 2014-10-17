@@ -1,18 +1,18 @@
-#ifndef LEVEL_H
-#define LEVEL_H
-
-#include <QObject>
-#include <QVector>
-#include "sector.h"
+#ifndef LEVEL_H_
+#define LEVEL_H_
+#include "glwidget.h"
+#include "levelworker.h"
 #include "sectorlist.h"
 
-class LevelRenderer : public QObject
+class Level : public QObject
 {
     Q_OBJECT
     SectorList *toRender;
+    LevelWorker *worker;
 public:
-    explicit LevelRenderer(QObject *parent = 0);
-    void Render();
+    explicit Level(QObject *parent = 0);
+    void render(GLWidget *parent);
+    void preload(int x, int y);
 signals:
 
 public slots:

@@ -17,10 +17,6 @@ Window::Window()
     ItemDataBase::instance()->load();
     JAtlas::instance(this)->load();
 
-    Sector sec;
-    sec.setBlock(0, 0, "error");
-    auto t = sec.getBlock(0, 0);
-
     a = new GLWidget();
     QGridLayout *mainLayout = new QGridLayout;
     mainLayout->addWidget(a, 1, 1);

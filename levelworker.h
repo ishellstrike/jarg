@@ -3,7 +3,6 @@
 
 #include "sector.h"
 #include "sectorlist.h"
-
 #include <QObject>
 
 class LevelWorker : public QObject
@@ -14,6 +13,9 @@ public:
     ~LevelWorker();
     SectorList *active;
     SectorList *mem;
+
+    Sector *getSector();
+
 signals:
 
 public slots:

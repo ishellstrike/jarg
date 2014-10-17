@@ -1,11 +1,10 @@
-#ifndef GLWIDGET_H
-#define GLWIDGET_H
+#ifndef GLWIDGET_H_12
+#define GLWIDGET_H_12
 
 #include <QtWidgets>
 #include <QGLWidget>
 #include <QGLShaderProgram>
-
-QT_FORWARD_DECLARE_CLASS(QGLShaderProgram);
+#include "level.h"
 
 class GLWidget : public QGLWidget
 {
@@ -20,6 +19,7 @@ public:
     void rotateBy(int xAngle, int yAngle, int zAngle);
     void setClearColor(const QColor &color);
     QGLShaderProgram *program;
+    Level *level;
 
 signals:
     void clicked();

@@ -1,11 +1,19 @@
 #include "level.h"
 
-LevelRenderer::LevelRenderer(QObject *parent) :
+Level::Level(QObject *parent) :
     QObject(parent)
 {
 }
 
-void LevelRenderer::Render()
+void Level::render(GLWidget *parent)
 {
+    for(Sector *a : toRender->data)
+    {
+        a->render(parent);
+    }
+}
 
+void Level::preload(int x, int y)
+{
+    worker->getSector(x, y);
 }

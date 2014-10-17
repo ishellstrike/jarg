@@ -14,3 +14,10 @@ LevelWorker::~LevelWorker()
     delete mem;
     mem = nullptr;
 }
+
+Sector *LevelWorker::getSector()
+{
+    Sector *sec = new Sector();
+    sec->Rebuild();
+    active->data.push_back(sec);
+}

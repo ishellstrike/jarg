@@ -1,5 +1,5 @@
-#ifndef WINDOW_H
-#define WINDOW_H
+#ifndef WINDOW_H_
+#define WINDOW_H_
 
 #include "glwidget.h"
 #include <QObject>
