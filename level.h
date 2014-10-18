@@ -1,18 +1,18 @@
 #ifndef LEVEL_H_
 #define LEVEL_H_
-#include "glwidget.h"
 #include "levelworker.h"
 #include "sectorlist.h"
 
 class Level : public QObject
 {
     Q_OBJECT
-    SectorList *toRender;
-    LevelWorker *worker;
+    SectorList *toRender; //owned by worker
+    LevelWorker *worker; //owned by game instance
 public:
     explicit Level(QObject *parent = 0);
-    void render(GLWidget *parent);
+    void render();
     void preload(int x, int y);
+    void setWorker(LevelWorker *w);
 signals:
 
 public slots:

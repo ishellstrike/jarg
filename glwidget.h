@@ -20,6 +20,7 @@ public:
     void setClearColor(const QColor &color);
     QGLShaderProgram *program;
     Level *level;
+    LevelWorker *worker;
 
 signals:
     void clicked();
@@ -31,7 +32,7 @@ protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
-
+    void keyPressEvent(QKeyEvent *keyEvent);
 private:
     void makeObject();
 

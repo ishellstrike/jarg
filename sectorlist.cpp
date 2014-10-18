@@ -15,3 +15,8 @@ SectorList::~SectorList()
     }
     data.clear();
 }
+
+int SectorList::count()
+{
+    return data.size();
+}

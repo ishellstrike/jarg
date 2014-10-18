@@ -14,8 +14,7 @@ public:
     SectorList *active;
     SectorList *mem;
 
-    Sector *getSector();
-
+    Sector *getSector(int x, int y);
 signals:
 
 public slots:

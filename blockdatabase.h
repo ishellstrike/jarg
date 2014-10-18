@@ -1,6 +1,7 @@
 #ifndef BLOCKDATABASE_H
 #define BLOCKDATABASE_H
 #include "blockdata.h"
+#include "jscript.h"
 #include <unordered_map>
 #include <vector>
 #include <QJsonObject>
@@ -48,6 +49,8 @@ public:
 
         void load();
 
+        void RegisterApi();
+        QScriptValue api;
 private:
         BlockDataBase();
         ~BlockDataBase();
@@ -55,6 +58,15 @@ private:
         BlockDataBase &operator=(const BlockDataBase &);
 
         static BlockDataBase *m_inst;
+
+public slots:
+        QScriptValue newBlockData(const QString &id)
+        {
+            BlockData *idat = new BlockData();
+            idat->id(id);
+            data.insert(id, idat);
+            return JScript::instance()->engine.toScriptValue(idat);
+        }
 };
 
 #endif // BLOCKDATABASE_H

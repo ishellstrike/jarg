@@ -1,5 +1,6 @@
 #include <QtWidgets>
 #include <QtOpenGL>
+#include "blockdatabase.h"
 
 #include "glwidget.h"
 #include "jatlas.h"
@@ -16,6 +17,8 @@ GLWidget::GLWidget(QWidget *parent, QGLWidget *shareWidget)
 
 GLWidget::~GLWidget()
 {
+    delete level;
+    delete worker;
 }
 
 QSize GLWidget::minimumSizeHint() const
@@ -87,6 +90,9 @@ void GLWidget::initializeGL()
     program->bind();
     program->setUniformValue("texture", 0);
 
+    level = new Level();
+    worker = new LevelWorker();
+    level->setWorker(worker);
     level->preload(0, 0);
 }
 
@@ -94,25 +100,31 @@ void GLWidget::paintGL()
 {
     qglClearColor(clearColor);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    level->render();
+//    QMatrix4x4 m;
+//    m.ortho(-0.5f, +0.5f, +0.5f, -0.5f, 4.0f, 15.0f);
+//    m.translate(0.0f, 0.0f, -10.0f);
+//    m.rotate(xRot / 16.0f, 1.0f, 0.0f, 0.0f);
+//    m.rotate(yRot / 16.0f, 0.0f, 1.0f, 0.0f);
+//    m.rotate(zRot / 16.0f, 0.0f, 0.0f, 1.0f);
 
+//    program->setUniformValue("matrix", m);
+//    program->enableAttributeArray(PROGRAM_VERTEX_ATTRIBUTE);
+//    program->enableAttributeArray(PROGRAM_TEXCOORD_ATTRIBUTE);
+//    program->setAttributeArray(PROGRAM_VERTEX_ATTRIBUTE, vertices.constData());
+//    program->setAttributeArray(PROGRAM_TEXCOORD_ATTRIBUTE, texCoords.constData());
 
-    QMatrix4x4 m;
-    m.ortho(-0.5f, +0.5f, +0.5f, -0.5f, 4.0f, 15.0f);
-    m.translate(0.0f, 0.0f, -10.0f);
-    m.rotate(xRot / 16.0f, 1.0f, 0.0f, 0.0f);
-    m.rotate(yRot / 16.0f, 0.0f, 1.0f, 0.0f);
-    m.rotate(zRot / 16.0f, 0.0f, 0.0f, 1.0f);
+//    for (int i = 0; i < 6; ++i) {
+//        glBindTexture(GL_TEXTURE_2D, textures[i]);
+//        glDrawArrays(GL_TRIANGLE_FAN, i * 4, 4);
+//    }
+    renderText(10,10, QString("%1").arg(BlockDataBase::instance()->data.size()));
+}
 
-    program->setUniformValue("matrix", m);
-    program->enableAttributeArray(PROGRAM_VERTEX_ATTRIBUTE);
-    program->enableAttributeArray(PROGRAM_TEXCOORD_ATTRIBUTE);
-    program->setAttributeArray(PROGRAM_VERTEX_ATTRIBUTE, vertices.constData());
-    program->setAttributeArray(PROGRAM_TEXCOORD_ATTRIBUTE, texCoords.constData());
-
-    for (int i = 0; i < 6; ++i) {
-        glBindTexture(GL_TEXTURE_2D, textures[i]);
-        glDrawArrays(GL_TRIANGLE_FAN, i * 4, 4);
-    }
+void GLWidget::keyPressEvent(QKeyEvent *keyEvent)
+{
+    if(keyEvent->key() == Qt::Key_Up)
+     int i=1;
 }
 
 void GLWidget::resizeGL(int width, int height)

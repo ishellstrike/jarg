@@ -33,6 +33,12 @@ void BlockDataBase::load()
     }
 }
 
+void BlockDataBase::RegisterApi()
+{
+    api = JScript::instance()->engine.newQObject(this);
+    JScript::instance()->engine.globalObject().setProperty("blockDataBase", api);
+}
+
 BlockDataBase::BlockDataBase()
 {
 

@@ -11,8 +11,12 @@
 Window::Window()
 {
     JScript::instance();
+
     ItemDataBase::instance()->RegisterApi();
     ItemDataBase::instance()->name("apiapiapi");
+
+    BlockDataBase::instance()->RegisterApi();
+
     BlockDataBase::instance()->load();
     ItemDataBase::instance()->load();
     JAtlas::instance(this)->load();

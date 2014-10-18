@@ -10,6 +10,8 @@ struct SectorList
     QVector<Sector *> data;
     SectorList();
     ~SectorList();
+
+    int count();
 };
 
 #endif // SECTORLIST_H

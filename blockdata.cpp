@@ -8,7 +8,7 @@ BlockData::BlockData(QObject *parent) :
     m_id(),
     m_color(),
     m_height(1),
-    m_texture("")
+    m_texture("error")
 {
 
 }

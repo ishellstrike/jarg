@@ -46,7 +46,7 @@ public:
     }
     QString texture() const
     {
-        return m_texture;
+        return "grass";
     }
     float height() const
     {

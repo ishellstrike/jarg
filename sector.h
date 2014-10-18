@@ -4,11 +4,7 @@
 #include "block.h"
 #include <QObject>
 #include <QVector>
-#include "glwidget.h"
-#include <QtWidgets>
-#include <QGLWidget>
 #include "vertex.h"
-#include <QOpenGLVertexArrayObject>
 
 #define RX 25
 #define RY 25
@@ -23,13 +19,12 @@ class Sector : public QObject
     QVector<Vertex> geom;
     QVector<GLuint> indeces;
     QVector2D offset;
-    QOpenGLVertexArrayObject *m_vao;
 public:
     Sector();
     virtual ~Sector();
-    void render(GLWidget *parent);
+    void render();
 
-    void Rebuild(GLWidget *parent);
+    void Rebuild();
 signals:
 
 public slots:

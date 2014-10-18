@@ -25,7 +25,8 @@ HEADERS       = window.h \
     levelworker.h \
     sectorlist.h \
     sectorrenderer.h \
-    agent.h
+    agent.h \
+    classicnoise.h
 SOURCES       = main.cpp \
                 window.cpp \
     glwidget.cpp \
@@ -49,7 +50,8 @@ SOURCES       = main.cpp \
     levelworker.cpp \
     sectorlist.cpp \
     sectorrenderer.cpp \
-    agent.cpp
+    agent.cpp \
+    classicnoise.cpp
 
 OTHER_FILES += \
     test.js \
