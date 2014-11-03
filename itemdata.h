@@ -17,33 +17,20 @@ struct RPart
     int count;
 };
 
-class ItemData : public QObject
+class ObjectData : public QObject
 {
     Q_OBJECT
     QString m_id;
     QString m_name;
     QString m_description;
-    QColor m_color;
     char m_symbol;
-    int m_weight;
-
 public:
-    ItemData();
-    ItemData &operator=(const ItemData &val);
-    ItemData(const ItemData &val);
+    ObjectData();
 
-
+    Q_PROPERTY(char symbol READ symbol WRITE symbol)
     Q_PROPERTY(QString id READ id WRITE id)
     Q_PROPERTY(QString name READ name WRITE name)
     Q_PROPERTY(QString description READ description WRITE description)
-    Q_PROPERTY(QColor color READ color WRITE color)
-    Q_PROPERTY(char symbol READ symbol WRITE symbol)
-    Q_PROPERTY(int weight READ weight WRITE weight)
-
-
-    QVector<Flag> flags;
-
-    QString toString() const;
 
     QString name() const
     {
@@ -57,21 +44,12 @@ public:
     {
         return m_description;
     }
-    QColor color() const
-    {
-        return m_color;
-    }
-
     char symbol() const
     {
         return m_symbol;
     }
-
-    int weight() const
-    {
-        return m_weight;
-    }
-
+    ObjectData &operator =(const ObjectData &val);
+    ObjectData(const ObjectData &val);
 public slots:
     void id(QString arg)
     {
@@ -85,13 +63,46 @@ public slots:
     {
         m_description = arg;
     }
-    void color(QColor arg)
-    {
-        m_color = arg;
-    }
     void symbol(char arg)
     {
         m_symbol = arg;
+    }
+};
+
+class ItemData : public QObject, public ObjectData
+{
+    Q_OBJECT
+    QColor m_color;
+
+    int m_weight;
+
+public:
+    ItemData();
+    ItemData &operator=(const ItemData &val);
+    ItemData(const ItemData &val);
+
+    Q_PROPERTY(QColor color READ color WRITE color)
+    Q_PROPERTY(int weight READ weight WRITE weight)
+
+
+    QVector<Flag> flags;
+
+    QString toString() const;
+
+    QColor color() const
+    {
+        return m_color;
+    }
+
+    int weight() const
+    {
+        return m_weight;
+    }
+
+public slots:
+    void color(QColor arg)
+    {
+        m_color = arg;
     }
     void weight(int arg)
     {

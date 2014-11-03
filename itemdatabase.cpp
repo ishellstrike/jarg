@@ -49,39 +49,8 @@ void ItemDataBase::load()
     error->id("error");
     error->name("!error!");
     data.insert("error", error);
-    {
-        QDir items_dir = QDir::current();
-        items_dir.cd("data/json/items");
-        QStringList files = items_dir.entryList(QStringList("*.json"));
-        for(QString s : files)
-        {
-            QString ss = items_dir.path() + "/" + s;
-            QFile file(ss);
-            file.open(QIODevice::ReadOnly);
-            QByteArray array = file.readAll();
-            QJsonDocument json(QJsonDocument::fromJson(array));
-            file.close();
-            QJsonArray obj = json.array();
-            for (int i = 0; i < obj.size(); i++)
-            {
-                QJsonObject one = obj[i].toObject();
 
-                ItemData *temp = new ItemData();
-                auto fields = one.keys();
-                for(QString field: fields)
-                {
-                    QJsonValue value = ((QJsonValue)one[field]);
-                    perseReq(value, *temp, field);
-                }
-                if(temp->id() == "") {
-                    qDebug() << s << "some object has no id";
-                    continue;
-                }
-                data.insert(temp->id(), temp);
-            }
-            qDebug() << obj.size() << "items from" << s;
-        }
-    }
+    parseDir(data, "data/json/items");
 
     {
         QDir items_dir = QDir::current();

@@ -28,9 +28,5 @@ class IHealth
 
 };
 
-class IWear
-{
-
-};
 
 #endif // AGENT_H

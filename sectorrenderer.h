@@ -5,7 +5,7 @@
 
 #include <QObject>
 
-class SectorRenderer : public QObject, public Agent
+class SectorRenderer : public QObject
 {
     Q_OBJECT
 public:
