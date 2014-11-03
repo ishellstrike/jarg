@@ -13,11 +13,20 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    qInstallMessageHandler(loggerHandler);
+    //qInstallMessageHandler(loggerHandler);
     qDebug() << "Jarg Start";
 
-    Window window;
+    QSurfaceFormat format;
+    format.setDepthBufferSize(24);
+    format.setMajorVersion(3);
+    format.setMinorVersion(2);
+    format.setSamples(4);
+
+    Window window(app.primaryScreen());
+    window.setFormat(format);
+    window.initialize();
     window.show();
+    window.setAnimating(true);
     int a = app.exec();
     qDebug() << "Jarg End";
     return a;

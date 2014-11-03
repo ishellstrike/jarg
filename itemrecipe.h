@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QVector>
-#include <itemdata.h>
+#include "itemdata.h"
 #include <QString>
 #include <QScriptValue>
 #include <QScriptContext>

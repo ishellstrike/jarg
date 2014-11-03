@@ -2,7 +2,6 @@ QT           += opengl widgets network script core
 CONFIG       += c++11
 
 HEADERS       = window.h \
-    glwidget.h \
     jlogger.h \
     block.h \
     object.h \
@@ -26,10 +25,11 @@ HEADERS       = window.h \
     sectorlist.h \
     sectorrenderer.h \
     agent.h \
-    classicnoise.h
+    classicnoise.h \
+    spritebatch.h \
+    graphics.h
 SOURCES       = main.cpp \
                 window.cpp \
-    glwidget.cpp \
     block.cpp \
     object.cpp \
     item.cpp \
@@ -51,7 +51,8 @@ SOURCES       = main.cpp \
     sectorlist.cpp \
     sectorrenderer.cpp \
     agent.cpp \
-    classicnoise.cpp
+    classicnoise.cpp \
+    spritebatch.cpp
 
 OTHER_FILES += \
     test.js \
@@ -63,4 +64,7 @@ OTHER_FILES += \
     data/js/recipes/resipe.js \
     data/js/items/test2.js \
     data/js/blocks/test.js \
-    data/js/blocks/error.js
+    data/js/blocks/error.js \
+    simple.vert \
+    data/shaders/simple.frag \
+    data/shaders/simple.vert

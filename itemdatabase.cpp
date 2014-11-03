@@ -162,14 +162,4 @@ ItemDataBase::~ItemDataBase()
     }
 }
 
-ItemDataBase::ItemDataBase(const ItemDataBase &root)
-{
-
-}
-
-ItemDataBase &ItemDataBase::operator=(const ItemDataBase &)
-{
-
-}
-
 ItemDataBase *ItemDataBase::m_inst = nullptr;

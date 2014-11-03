@@ -41,9 +41,4 @@ JAtlas::~JAtlas()
     delete image;
 }
 
-JAtlas &JAtlas::operator=(const JAtlas &)
-{
-
-}
-
 JAtlas *JAtlas::m_inst = nullptr;
