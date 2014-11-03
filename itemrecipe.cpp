@@ -42,16 +42,16 @@ Recipe::Recipe(const Recipe &val) :
 void Recipe::addExact(QString name, int count)
  {
      Flag a;
-     a.name = name;
-     a.value = count;
+     a.name(name);
+     a.value(count);
      exact_items.push_back(a);
 }
 
 void Recipe::addResult(QString name, int count)
 {
     Flag a;
-    a.name = name;
-    a.value = count;
+    a.name(name);
+    a.value(count);
     result.push_back(a);
 }
 

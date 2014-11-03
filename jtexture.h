@@ -2,18 +2,25 @@
 #define JTEXTURE_H
 #include <QString>
 #include <QtOpenGL>
+#include "graphics.h"
 
-class JTexture
-{
+struct Texture {
 public:
-    JTexture(const QString &name, QGLWidget &parent);
-    ~JTexture();
-
-    GLuint id;
+    GLuint textureId;
     QString name;
-    QGLWidget *owner;
-private:
+    unsigned int height;
+    unsigned int width;
+    unsigned int zsize;
 
+    Texture();
+    Texture(GLuint id);
+    ~Texture();
+
+    void Load(const QString &a, bool smooth = false, bool mip = false);
+    void Load(QImage *a, bool smooth = false, bool mip = false);
+    void Empty(vec2 size, GLuint dim = GL_TEXTURE_2D, GLuint format = GL_RGBA);
+    void CreateDepth(vec2 size);
+    void EmptyFloatSpace(vec3 size, GLuint dim = GL_TEXTURE_2D, GLuint color = GL_RGB16F);
 };
 
 #endif // JTEXTURE_H

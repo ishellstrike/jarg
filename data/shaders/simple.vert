@@ -9,11 +9,13 @@
 layout(location = VERT_POSITION) in vec3 position;
 layout(location = VERT_TEXCOORD) in vec2 texcoord;
 layout(location = VERT_NORMAL) in vec3 normal;
-uniform mat4 qt_ModelViewProjectionMatrix;
-varying vec2 qt_TexCoord0;
+
+uniform mat4 MVP;
+
+out vec2 fragTexcoord;
 
 void main(void)
 {
-    gl_Position = qt_ModelViewProjectionMatrix * vec4(position, 1);
-    qt_TexCoord0 = texcoord;
+    gl_Position = MVP * vec4(position, 1);
+    fragTexcoord = texcoord;
 }

@@ -27,7 +27,8 @@ HEADERS       = window.h \
     agent.h \
     classicnoise.h \
     spritebatch.h \
-    graphics.h
+    graphics.h \
+    parser.h
 SOURCES       = main.cpp \
                 window.cpp \
     block.cpp \

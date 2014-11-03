@@ -19,6 +19,10 @@ public:
     bool m_show_full_screen;
     bool m_animating;
     int m_pos_atr, m_uv_atr;
+    uint m_vboIds[2];
+    GLfloat *triangleVertices;
+    GLfloat *quadVertices;
+    int m_w, m_h;
 
     bool event(QEvent *event);
     void exposeEvent(QExposeEvent *event);

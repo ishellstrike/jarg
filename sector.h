@@ -4,6 +4,7 @@
 #include "block.h"
 #include <QObject>
 #include <QVector>
+#include "agent.h"
 #include "vertex.h"
 
 #define RX 25

@@ -18,7 +18,6 @@ Window::Window(QScreen *screen) :
 
     BlockDataBase::instance()->load();
     ItemDataBase::instance()->load();
-    JAtlas::instance(this)->load();
 
     this->resize(500,500);
 
@@ -52,7 +51,7 @@ Window::Window(QScreen *screen) :
         qDebug() << typeid(JGraphics).name() << "loaded";
     m_funcs->initializeOpenGLFunctions();
 
-    timer = new QTimer(this);
+    timer = new QTimer();
     connect(timer, SIGNAL(timeout()), SLOT(renderNow()));
     //timer->start(100);
 
@@ -60,8 +59,9 @@ Window::Window(QScreen *screen) :
     m_animating = true;
     renderLater();
 
+    JAtlas::instance(this)->load(m_context);
 
-    m_timeMonitor = new QOpenGLTimeMonitor(this);
+    m_timeMonitor = new QOpenGLTimeMonitor();
     m_timeMonitor->setSampleCount(3);
     if ( !m_timeMonitor->create() )
             qWarning() << "Failed to create timer query object";
@@ -69,18 +69,19 @@ Window::Window(QScreen *screen) :
 
 void Window::render()
 {
-    glClearColor(0.1,0.3,0.5,1.0);
+    m_funcs->glClearColor(0.2,0.3,0.4,1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
-    glOrtho(0,1,1,0,0,1);
-    glBegin(GL_TRIANGLES);
-    glColor3f(1,1,1);
-    glVertex2d(0,0);
-    glVertex2d(1,0);
-    glVertex2d(1,1);
-    glEnd();
-    batch->DrawRect(vec2(-5,-5), vec2(10,10), Qt::white);
+    m_program->bind();
+    m_modelView.setToIdentity();
+    m_modelView.translate(-1.5f, 0.0f, -6.0f);
+    m_program->setUniformValue("MVP", m_projection * m_modelView);
+
+    //m_modelView.setToIdentity();
+    m_program->setUniformValue("MVP", m_projection * m_modelView);
+
+    batch->DrawQuadAtlas(vec2(0,0), vec2(200,200), "error");
     batch->Render();
+    m_program->release();
 }
 
 bool Window::event(QEvent *event)
@@ -130,12 +131,27 @@ void Window::renderNow()
 
 void Window::initialize()
 {
-    m_program = new QOpenGLShaderProgram(this);
+    m_program = new QOpenGLShaderProgram();
     m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, "data/shaders/simple.vert");
     m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, "data/shaders/simple.frag");
     m_program->link();
-    qDebug() << m_program->attributeLocation("qt_Vertex");
-    qDebug() << m_program->attributeLocation("qt_MultiTexCoord0");
+
+   m_funcs->glGenBuffers(2, &m_vboIds[0]);
+   GLfloat triangleVertices[] = {
+   0.0f, 1.0f, 0.0f,
+   -1.0f,-1.0f, 0.0f,
+   1.0f,-1.0f, 0.0f,
+   };
+   m_funcs->glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[0]);
+   m_funcs->glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices, GL_STATIC_DRAW);
+   GLfloat quadVertices[] = {
+   1.0f, 1.0f, 0.0f,
+   -1.0f, 1.0f, 0.0f,
+   1.0f,-1.0f, 0.0f,
+   -1.0f,-1.0f, 0.0f
+   };
+   m_funcs->glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[1]);
+   m_funcs->glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), quadVertices, GL_STATIC_DRAW);
 }
 
 void Window::renderLater()
@@ -170,9 +186,11 @@ void Window::resizeGL(int w, int h)
 {
     if(h == 0)
         h = 1;
+    m_w = w;
+    m_h = h;
     glViewport(0, 0, w, h);
     m_projection.setToIdentity();
-    m_projection.perspective(45, (float)w/float(h), 1, 1000);
+    m_projection.ortho(0,w,h,0,0.1,100);//.perspective(45, (float)w/float(h), 1, 1000);
     m_modelView.setToIdentity();
 }
 
@@ -206,4 +224,7 @@ Window::~Window()
     JAtlas::drop();
 
     delete batch;
+    delete m_program;
+    delete timer;
+    delete m_timeMonitor;
 }

@@ -3,5 +3,5 @@
 
 Item::Item()
 {
-    std::string id;
+    QString id;
 }

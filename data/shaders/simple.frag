@@ -6,10 +6,11 @@
 #define VERT_COLOR 3
 #define FRAG_OUTPUT0 0
 
-uniform sampler2D qt_Texture0;
-varying vec4 qt_TexCoord0;
+uniform sampler2D colorTexture;
+in vec2 fragTexcoord;
 
 void main(void)
 {
-    gl_FragColor = texture2D(qt_Texture0, qt_TexCoord0.st);
+    vec4 color = texture2D(colorTexture, fragTexcoord);
+    gl_FragColor = color;
 }

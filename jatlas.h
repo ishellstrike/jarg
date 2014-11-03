@@ -1,12 +1,15 @@
 #ifndef JATLAS_H
 #define JATLAS_H
 
+#include "jtexture.h"
+
 #include <QObject>
 #include <QHash>
 #include <QMutex>
 #include <QDebug>
 #include <QRectF>
 #include <QtOpenGL>
+#include <QOpenGLTexture>
 
 class JAtlas : public QObject
 {
@@ -28,7 +31,7 @@ public:
         return m_inst;
     }
 
-    void load();
+    void load(QOpenGLContext *context);
 
     static void drop()
     {
@@ -41,7 +44,9 @@ public:
     }
 
     QHash<QString, QVector2D> sources;
-    QPixmap *image;
+    QImage *image;
+    Texture *tex;
+    QVector2D sSize;
 private:
     static JAtlas *m_inst;
     JAtlas(QObject *parent = nullptr);

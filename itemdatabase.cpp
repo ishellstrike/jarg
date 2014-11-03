@@ -7,6 +7,7 @@
 #include <QFile>
 #include <QtWidgetsDepends>
 #include "jscript.h"
+#include "parser.h"
 
 QVector<Flag> extractFlags(QString flag_group_name, QJsonObject one)
 {
@@ -66,11 +67,12 @@ void ItemDataBase::load()
                 QJsonObject one = obj[i].toObject();
 
                 ItemData *temp = new ItemData();
-                temp->id(one["id"].toString());
-                temp->name(one["name"].toString());
-                temp->description(one["description"].toString());
-                temp->weight(one["weight"].toInt());
-                temp->flags = extractFlags("flag", one);
+                auto fields = one.keys();
+                for(QString field: fields)
+                {
+                    QJsonValue value = ((QJsonValue)one[field]);
+                    perseReq(value, *temp, field);
+                }
                 if(temp->id() == "") {
                     qDebug() << s << "some object has no id";
                     continue;

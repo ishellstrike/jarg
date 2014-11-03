@@ -3,15 +3,34 @@
 #include <QString>
 #include <QVector>
 
-class Agent
+class IDestroyable
 {
-public:
-//    Agent();
-//    virtual QString name() = 0;
-//    virtual QString fullName();
-//    Agent *parent;
-//    QVector<Agent> childrens;
-//    QVector<Agent *> getBrothers();
+    virtual void Destroy() = 0;
+};
+
+class ICloth
+{
+
+};
+
+class IWear
+{
+
+};
+
+class IContainer
+{
+
+};
+
+class IHealth
+{
+
+};
+
+class IWear
+{
+
 };
 
 #endif // AGENT_H

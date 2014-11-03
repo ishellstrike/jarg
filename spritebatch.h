@@ -15,8 +15,8 @@ public:
     SpriteBatch(JGraphics *parent, QOpenGLContext *context);
     ~SpriteBatch();
 
-    QVector3D *pos;
-    QVector2D *uv;
+    vec3 *pos;
+    vec2 *uv;
     QColor *col;
     unsigned int *index;
     unsigned int cur;
@@ -28,10 +28,11 @@ public:
     QOpenGLContext *m_context;
     int current;
 
-    QGLShaderProgram *program;
+    QOpenGLShaderProgram *program;
 
-    void DrawQuad(QVector2D loc, QVector2D size, const JTexture &tex);
-    void DrawRect(QVector2D loc, QVector2D size, QColor col);
+    void DrawQuad(vec2 loc, vec2 size, const Texture &tex);
+    void DrawQuadAtlas(vec2 loc, vec2 size, QString num);
+    void DrawRect(vec2 loc, vec2 size, QColor col);
     void Render();
 };
 
