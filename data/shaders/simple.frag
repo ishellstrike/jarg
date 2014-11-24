@@ -1,13 +1,7 @@
-#version 330 core
-
-#define VERT_POSITION 0
-#define VERT_TEXCOORD 1
-#define VERT_NORMAL 2
-#define VERT_COLOR 3
-#define FRAG_OUTPUT0 0
+#version 120
 
 uniform sampler2D colorTexture;
-in vec2 fragTexcoord;
+varying vec2 fragTexcoord;
 
 void main(void)
 {

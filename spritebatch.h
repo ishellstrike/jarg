@@ -23,17 +23,21 @@ public:
 
     QOpenGLBuffer vert_b, col_b, uv_b, ind_b;
     QOpenGLVertexArrayObject vao;
+    QMatrix4x4 uni;
 
     JGraphics *m_parent;
     QOpenGLContext *m_context;
     int current;
 
-    QOpenGLShaderProgram *program;
+    QOpenGLShaderProgram *texture_program, *color_program, *current_program;
 
-    void DrawQuad(vec2 loc, vec2 size, const Texture &tex);
-    void DrawQuadAtlas(vec2 loc, vec2 size, QString num);
-    void DrawRect(vec2 loc, vec2 size, QColor col);
-    void Render();
+    void bind(QOpenGLShaderProgram *prog);
+
+    void drawQuad(vec2 loc, vec2 size, const Texture &tex);
+    void drawQuadAtlas(vec2 loc, vec2 size, QString num);
+    void drawRect(vec2 loc, vec2 size, col4 col);
+    void render();
+    void setUniform(QMatrix4x4 mat);
 };
 
 #endif // SPRITEBATCH_H

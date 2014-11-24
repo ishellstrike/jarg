@@ -68,4 +68,6 @@ OTHER_FILES += \
     data/js/blocks/error.js \
     simple.vert \
     data/shaders/simple.frag \
-    data/shaders/simple.vert
+    data/shaders/simple.vert \
+    data/shaders/color.frag \
+    data/shaders/color.vert

@@ -69,7 +69,7 @@ public slots:
     }
 };
 
-class ItemData : public QObject, public ObjectData
+class ItemData : public ObjectData
 {
     Q_OBJECT
     QColor m_color;

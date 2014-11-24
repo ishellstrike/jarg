@@ -10,9 +10,9 @@ SpriteBatch::SpriteBatch(JGraphics *parent, QOpenGLContext *context) :
     cur(0)
 {
     index = new unsigned int[SIZE*6];
-    uv = new QVector2D[SIZE*4];
-    pos = new QVector3D[SIZE*4];
-    col = new QColor[SIZE*4];
+    uv = new vec2[SIZE*4];
+    pos = new vec3[SIZE*4];
+    col = new col4[SIZE*4];
     vert_b.create();
     col_b.create();
     uv_b.create();
@@ -23,11 +23,14 @@ SpriteBatch::SpriteBatch(JGraphics *parent, QOpenGLContext *context) :
 #define PROGRAM_TEXCOORD_ATTRIBUTE 1
 #define PROGRAM_COLOR_ATTRIBUTE 2
 
-    program = new QOpenGLShaderProgram();
-    loadShader("data/shaders/simple.vert", "data/shaders/simple.frag", program);
+    texture_program = new QOpenGLShaderProgram();
+    loadShader("data/shaders/simple.vert", "data/shaders/simple.frag", texture_program);
 
-    program->bind();
-    program->setUniformValue("colorTexture", 0);
+    bind(texture_program);
+    texture_program->setUniformValue("colorTexture", 0);
+
+    color_program = new QOpenGLShaderProgram();
+    loadShader("data/shaders/color.vert", "data/shaders/color.frag", color_program);
 }
 
 SpriteBatch::~SpriteBatch()
@@ -42,18 +45,33 @@ SpriteBatch::~SpriteBatch()
     uv_b.destroy();
     ind_b.destroy();
     vao.destroy();
+
+    delete texture_program;
+    delete color_program;
 }
 
-void SpriteBatch::DrawQuadAtlas(vec2 loc, vec2 size, QString num)
+void SpriteBatch::bind(QOpenGLShaderProgram *prog)
+{
+    current_program = prog;
+    prog->bind();
+    prog->setUniformValue("MVP", uni);
+}
+
+void SpriteBatch::drawQuadAtlas(vec2 loc, vec2 size, QString num)
 {
     auto inst = JAtlas::instance();
     if(inst->tex->textureId != current)
     {
-        Render();
+        render();
         current = inst->tex->textureId;
     }
+    if(current_program != texture_program)
+    {
+        render();
+        bind(texture_program);
+    }
     if(cur >= SIZE - 1)
-        Render();
+        render();
 
     auto f = inst->sources.find(num);
     if(f == inst->sources.end())
@@ -86,15 +104,20 @@ void SpriteBatch::DrawQuadAtlas(vec2 loc, vec2 size, QString num)
     cur++;
 }
 
-void SpriteBatch::DrawQuad(vec2 loc, vec2 size, const Texture &tex)
+void SpriteBatch::drawQuad(vec2 loc, vec2 size, const Texture &tex)
 {
     if(tex.textureId != current)
     {
-        Render();
+        render();
         current = tex.textureId;
     }
+    if(current_program != texture_program)
+    {
+        render();
+        bind(texture_program);
+    }
     if(cur >= SIZE - 1)
-        Render();
+        render();
 
     pos[cur*4]     = vec3(loc.x(), loc.y(), 0);
     pos[cur*4 + 1] = vec3(loc.x() + size.x(), loc.y(), 0);
@@ -121,10 +144,15 @@ void SpriteBatch::DrawQuad(vec2 loc, vec2 size, const Texture &tex)
     cur++;
 }
 
-void SpriteBatch::DrawRect(vec2 loc, vec2 size, QColor _col)
+void SpriteBatch::drawRect(vec2 loc, vec2 size, col4 _col)
 {
     if(cur >= SIZE - 1)
-        Render();
+        render();
+    if(current_program != color_program)
+    {
+        render();
+        bind(color_program);
+    }
 
     pos[cur*4]     = vec3(loc.x(), loc.y(), 0);
     pos[cur*4 + 1] = vec3(loc.x() + size.x(), loc.y(), 0);
@@ -151,26 +179,27 @@ void SpriteBatch::DrawRect(vec2 loc, vec2 size, QColor _col)
     cur++;
 }
 
-void SpriteBatch::Render()
+void SpriteBatch::render()
 {
-    glEnable(GL_BLEND);
     if(cur == 0)
         return;
+    glEnable(GL_BLEND);
+    bind(current_program);
 
     m_parent->glBindBuffer(GL_ARRAY_BUFFER, vert_b.bufferId());
-    m_parent->glBufferData(GL_ARRAY_BUFFER, sizeof(QVector3D)*cur*4, &pos[0], GL_STREAM_DRAW);
+    m_parent->glBufferData(GL_ARRAY_BUFFER, sizeof(vec3)*cur*4, &pos[0], GL_STREAM_DRAW);
     m_parent->glEnableVertexAttribArray(PROGRAM_VERTEX_ATTRIBUTE);
-    m_parent->glVertexAttribPointer(PROGRAM_VERTEX_ATTRIBUTE, 3, GL_FLOAT, GL_FALSE, sizeof(QVector3D), 0);
+    m_parent->glVertexAttribPointer(PROGRAM_VERTEX_ATTRIBUTE, 3, GL_FLOAT, GL_FALSE, sizeof(vec3), 0);
 
     m_parent->glBindBuffer(GL_ARRAY_BUFFER, col_b.bufferId());
-    m_parent->glBufferData(GL_ARRAY_BUFFER, sizeof(QVector2D)*cur*4, &uv[0], GL_STREAM_DRAW);
+    m_parent->glBufferData(GL_ARRAY_BUFFER, sizeof(vec2)*cur*4, &uv[0], GL_STREAM_DRAW);
     m_parent->glEnableVertexAttribArray(PROGRAM_TEXCOORD_ATTRIBUTE);
-    m_parent->glVertexAttribPointer(PROGRAM_TEXCOORD_ATTRIBUTE, 2, GL_FLOAT, GL_FALSE, sizeof(QVector2D), 0);
+    m_parent->glVertexAttribPointer(PROGRAM_TEXCOORD_ATTRIBUTE, 2, GL_FLOAT, GL_FALSE, sizeof(vec2), 0);
 
     m_parent->glBindBuffer(GL_ARRAY_BUFFER, uv_b.bufferId());
-    m_parent->glBufferData(GL_ARRAY_BUFFER, sizeof(QColor)*cur*4, &col[0], GL_STREAM_DRAW);
+    m_parent->glBufferData(GL_ARRAY_BUFFER, sizeof(col4)*cur*4, &col[0], GL_STREAM_DRAW);
     m_parent->glEnableVertexAttribArray(PROGRAM_COLOR_ATTRIBUTE);
-    m_parent->glVertexAttribPointer(PROGRAM_COLOR_ATTRIBUTE, 4, GL_FLOAT, GL_FALSE, sizeof(QColor), 0);
+    m_parent->glVertexAttribPointer(PROGRAM_COLOR_ATTRIBUTE, 4, GL_FLOAT, GL_FALSE, sizeof(col4), 0);
 
     m_parent->glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ind_b.bufferId());
     m_parent->glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*cur*6, &index[0], GL_STREAM_DRAW);
@@ -178,4 +207,9 @@ void SpriteBatch::Render()
     m_parent->glDrawElements(GL_TRIANGLES, cur*6, GL_UNSIGNED_INT, NULL);
 
     cur = 0;
+}
+
+void SpriteBatch::setUniform(QMatrix4x4 mat)
+{
+    uni = mat;
 }

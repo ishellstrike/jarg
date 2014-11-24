@@ -3,17 +3,18 @@
 
 #include <QGLFunctions>
 #include <QOpenGLShaderProgram>
-#include <QOpenGLFunctions_3_2_Core>
+#include <QOpenGLFunctions_2_1>
 #include <QtOpenGL>
 
 #define PROGRAM_VERTEX_ATTRIBUTE 0
 #define PROGRAM_TEXCOORD_ATTRIBUTE 1
 #define PROGRAM_COLOR_ATTRIBUTE 2
 
-typedef QOpenGLFunctions_3_2_Core JGraphics;
+typedef QOpenGLFunctions_2_1 JGraphics;
 typedef QVector2D vec2;
 typedef QVector3D vec3;
 typedef QVector4D vec4;
+typedef QColor col4;
 #define STRINGIFY(x) #x
 #define STRINGIFYMACRO(y) STRINGIFY(y)
 #define INCLUDIFY(x) <##x##>

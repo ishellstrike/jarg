@@ -25,10 +25,10 @@ Window::Window(QScreen *screen) :
 
     QSurfaceFormat format;
     format.setDepthBufferSize(24);
-    format.setMajorVersion(3);
-    format.setMinorVersion(2);
+    format.setMajorVersion(2);
+    format.setMinorVersion(1);
     format.setSamples(4);
-    format.setProfile(QSurfaceFormat::CoreProfile );
+    format.setProfile(QSurfaceFormat::CompatibilityProfile);
     setFormat(format);
     create();
 
@@ -79,8 +79,10 @@ void Window::render()
     //m_modelView.setToIdentity();
     m_program->setUniformValue("MVP", m_projection * m_modelView);
 
-    batch->DrawQuadAtlas(vec2(0,0), vec2(200,200), "error");
-    batch->Render();
+    batch->setUniform(m_projection * m_modelView);
+    batch->drawQuadAtlas(vec2(0,0), vec2(200,200), "error");
+    batch->drawRect(vec2(10,10), vec2(100,100), Qt::white);
+    batch->render();
     m_program->release();
 }
 

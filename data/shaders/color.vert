@@ -7,10 +7,10 @@ attribute vec4 color;
 
 uniform mat4 MVP;
 
-varying vec2 fragTexcoord;
+varying vec4 fragColor;
 
 void main(void)
 {
     gl_Position = MVP * vec4(position, 1);
-    fragTexcoord = texcoord;
+    fragColor = color;
 }
