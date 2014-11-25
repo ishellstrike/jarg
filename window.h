@@ -4,6 +4,7 @@
 #include <QObject>
 #include "graphics.h"
 #include "spritebatch.h"
+#include "ui_window.h"
 #include <QMatrix4x4>
 
 class GameContainer;
@@ -29,6 +30,7 @@ public:
     void render();
 
     static abstract_engine *drawer;
+    static window_system *ui_system;
 
     QTimer *timer;
 

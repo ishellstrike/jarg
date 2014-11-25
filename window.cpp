@@ -62,6 +62,9 @@ MainWindow::MainWindow(QScreen *screen) :
 
     JAtlas::instance(this)->load(m_context);
 
+    MainWindow::ui_system = new window_system();
+    MainWindow::ui_system->init();
+
     m_timeMonitor = new QOpenGLTimeMonitor();
     m_timeMonitor->setSampleCount(3);
     if ( !m_timeMonitor->create() )
@@ -231,6 +234,8 @@ MainWindow::~MainWindow()
     delete m_program;
     delete timer;
     delete m_timeMonitor;
+    delete ui_system;
 }
 
 abstract_engine *MainWindow::drawer = nullptr;
+window_system *MainWindow::ui_system = nullptr;

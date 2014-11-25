@@ -10,12 +10,12 @@ class ui_element
 public:
     ui_element(ui_element *par = 0);
     ui_element *ui_parent;
+    ~ui_element();
     vec2 size;
 
     virtual void render() = 0;
     virtual void update() = 0;
     vec2 get_position();
-private:
     vec2 loc;
 };
 
@@ -25,7 +25,7 @@ public:
     ui_container();
     ~ui_container();
     QVector<ui_element *> elements;
-    void addElement(ui_element * element);
+    void addElement(ui_element *element);
 };
 
 #endif // UI_CONTAINER_H
