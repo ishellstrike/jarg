@@ -2,6 +2,7 @@
 #define SPRITEBATCH_H
 #include "jtexture.h"
 #include "graphics.h"
+#include "ui_container.h"
 
 #include <QGLShaderProgram>
 #include <QVector3D>
@@ -9,9 +10,10 @@
 
 #define SIZE 10000
 
-class SpriteBatch
+class SpriteBatch : public abstract_engine
 {
 public:
+
     SpriteBatch(JGraphics *parent, QOpenGLContext *context);
     ~SpriteBatch();
 
@@ -36,6 +38,7 @@ public:
     void drawQuad(vec2 loc, vec2 size, const Texture &tex);
     void drawQuadAtlas(vec2 loc, vec2 size, QString num);
     void drawRect(vec2 loc, vec2 size, col4 col);
+    void drawLine(vec2 start, vec2 end, col4 color);
     void render();
     void setUniform(QMatrix4x4 mat);
 };

@@ -50,7 +50,7 @@ void Texture::Load(QImage *image, bool smooth /*= false*/, bool mip /*= false*/)
     width = image->width();
 }
 
-void Texture::Empty(vec2 size, GLuint dim /*= GL_TEXTURE_2D*/, GLuint format /*= GL_RGBA*/)
+void Texture::Empty(QVector2D size, GLuint dim /*= GL_TEXTURE_2D*/, GLuint format /*= GL_RGBA*/)
 {
     width = size.x();
     height = size.y();
@@ -66,7 +66,7 @@ void Texture::Empty(vec2 size, GLuint dim /*= GL_TEXTURE_2D*/, GLuint format /*=
     glBindTexture(dim, 0);
 }
 
-void Texture::EmptyFloatSpace(vec3 size, GLuint dim /*= GL_TEXTURE_2D*/, GLuint color /* = GL_RGB16F*/)
+void Texture::EmptyFloatSpace(QVector3D size, GLuint dim /*= GL_TEXTURE_2D*/, GLuint color /* = GL_RGB16F*/)
 {
 //    width = size.x();
 //    height = size.y();
@@ -95,7 +95,7 @@ void Texture::EmptyFloatSpace(vec3 size, GLuint dim /*= GL_TEXTURE_2D*/, GLuint 
 //            glTexImage1D(GL_TEXTURE_1D, 0, color, width, 0, GL_RGB, GL_FLOAT, NULL);
 }
 
-void Texture::CreateDepth(vec2 size)
+void Texture::CreateDepth(QVector2D size)
 {
     width = size.x();
     height = size.y();

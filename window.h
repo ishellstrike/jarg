@@ -8,12 +8,12 @@
 
 class GameContainer;
 
-class Window : public QWindow
+class MainWindow : public QWindow
 {
     Q_OBJECT
 public:
-    explicit Window( QScreen* screen );
-    ~Window();
+    explicit MainWindow( QScreen* screen );
+    ~MainWindow();
 
     bool m_update_pending;
     bool m_show_full_screen;
@@ -27,6 +27,8 @@ public:
     bool event(QEvent *event);
     void exposeEvent(QExposeEvent *event);
     void render();
+
+    static abstract_engine *drawer;
 
     QTimer *timer;
 

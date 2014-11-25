@@ -6,7 +6,7 @@
 #include "sector.h"
 #include <QList>
 
-Window::Window(QScreen *screen) :
+MainWindow::MainWindow(QScreen *screen) :
     QWindow(screen)
 {
     JScript::instance();
@@ -56,6 +56,7 @@ Window::Window(QScreen *screen) :
     //timer->start(100);
 
     batch = new SpriteBatch(m_funcs, m_context);
+    drawer = batch;
     m_animating = true;
     renderLater();
 
@@ -67,7 +68,7 @@ Window::Window(QScreen *screen) :
             qWarning() << "Failed to create timer query object";
 }
 
-void Window::render()
+void MainWindow::render()
 {
     m_funcs->glClearColor(0.2,0.3,0.4,1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -86,7 +87,8 @@ void Window::render()
     m_program->release();
 }
 
-bool Window::event(QEvent *event)
+
+bool MainWindow::event(QEvent *event)
 {
     switch (event->type()) {
     case QEvent::UpdateRequest:
@@ -98,7 +100,7 @@ bool Window::event(QEvent *event)
     }
 }
 
-void Window::exposeEvent(QExposeEvent *event)
+void MainWindow::exposeEvent(QExposeEvent *event)
 {
     Q_UNUSED(event);
 
@@ -106,7 +108,7 @@ void Window::exposeEvent(QExposeEvent *event)
         renderNow();
 }
 
-void Window::renderNow()
+void MainWindow::renderNow()
 {
     if (!isExposed())
         return;
@@ -131,7 +133,7 @@ void Window::renderNow()
         renderLater();
 }
 
-void Window::initialize()
+void MainWindow::initialize()
 {
     m_program = new QOpenGLShaderProgram();
     m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, "data/shaders/simple.vert");
@@ -156,7 +158,7 @@ void Window::initialize()
    m_funcs->glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), quadVertices, GL_STATIC_DRAW);
 }
 
-void Window::renderLater()
+void MainWindow::renderLater()
 {
     if (!m_update_pending)
     {
@@ -165,7 +167,7 @@ void Window::renderLater()
     }
 }
 
-void Window::setAnimating(bool animating)
+void MainWindow::setAnimating(bool animating)
 {
     m_animating = animating;
     if(animating)
@@ -174,7 +176,7 @@ void Window::setAnimating(bool animating)
     }
 }
 
-void Window::resizeEvent(QResizeEvent *event)
+void MainWindow::resizeEvent(QResizeEvent *event)
 {
     int w = event->size().width();
     int h = event->size().height();
@@ -184,7 +186,7 @@ void Window::resizeEvent(QResizeEvent *event)
     QWindow::resizeEvent(event);
 }
 
-void Window::resizeGL(int w, int h)
+void MainWindow::resizeGL(int w, int h)
 {
     if(h == 0)
         h = 1;
@@ -196,7 +198,7 @@ void Window::resizeGL(int w, int h)
     m_modelView.setToIdentity();
 }
 
-void Window::keyPressEvent(QKeyEvent *event)
+void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     switch(event->key())
     {
@@ -218,7 +220,7 @@ void Window::keyPressEvent(QKeyEvent *event)
     QWindow::keyPressEvent(event);
 }
 
-Window::~Window()
+MainWindow::~MainWindow()
 {
     ItemDataBase::drop();
     BlockDataBase::drop();
@@ -230,3 +232,5 @@ Window::~Window()
     delete timer;
     delete m_timeMonitor;
 }
+
+abstract_engine *MainWindow::drawer = nullptr;

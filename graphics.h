@@ -5,6 +5,7 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLFunctions_2_1>
 #include <QtOpenGL>
+#include "jtexture.h"
 
 #define PROGRAM_VERTEX_ATTRIBUTE 0
 #define PROGRAM_TEXCOORD_ATTRIBUTE 1
@@ -29,6 +30,15 @@ inline void loadShader(char *name_ver, char *name_frag, QOpenGLShaderProgram *pr
     if(program->link())
         qDebug() << "link OK";
 }
+
+class abstract_engine
+{
+public:
+    virtual void drawLine(vec2 start, vec2 end, col4 color) = 0;
+    virtual void drawQuad(vec2 loc, vec2 size, const Texture &tex) = 0;
+    virtual void drawQuadAtlas(vec2 loc, vec2 size, QString tex) = 0;
+    virtual void drawRect(vec2 loc, vec2 size, col4 col) = 0;
+};
 
 
 #endif // GRAPHICS_H

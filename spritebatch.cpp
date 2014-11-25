@@ -179,6 +179,11 @@ void SpriteBatch::drawRect(vec2 loc, vec2 size, col4 _col)
     cur++;
 }
 
+void SpriteBatch::drawLine(vec2 start, vec2 end, col4 color)
+{
+
+}
+
 void SpriteBatch::render()
 {
     if(cur == 0)

@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     format.setMinorVersion(2);
     format.setSamples(4);
 
-    Window window(app.primaryScreen());
+    MainWindow window(app.primaryScreen());
     window.setFormat(format);
     window.initialize();
     window.show();

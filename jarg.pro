@@ -28,7 +28,10 @@ HEADERS       = window.h \
     classicnoise.h \
     spritebatch.h \
     graphics.h \
-    parser.h
+    parser.h \
+    ui_window.h \
+    ui_container.h \
+    ui_button.h
 SOURCES       = main.cpp \
                 window.cpp \
     block.cpp \
@@ -53,7 +56,10 @@ SOURCES       = main.cpp \
     sectorrenderer.cpp \
     agent.cpp \
     classicnoise.cpp \
-    spritebatch.cpp
+    spritebatch.cpp \
+    ui_window.cpp \
+    ui_container.cpp \
+    ui_button.cpp
 
 OTHER_FILES += \
     test.js \
