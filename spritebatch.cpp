@@ -212,9 +212,22 @@ void SpriteBatch::render()
     m_parent->glDrawElements(GL_TRIANGLES, cur*6, GL_UNSIGNED_INT, NULL);
 
     cur = 0;
-}
+    }
 
 void SpriteBatch::setUniform(QMatrix4x4 mat)
 {
     uni = mat;
+}
+
+void SpriteBatch::setScissor(vec2 loc, vec2 size)
+{
+    render();
+    m_parent->glEnable(GL_SCISSOR_TEST);
+    m_parent->glScissor(loc.x(), 500 - loc.y(), size.x(), size.y());
+}
+
+void SpriteBatch::resetScissor()
+{
+    render();
+    m_parent->glDisable(GL_SCISSOR_TEST);
 }

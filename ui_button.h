@@ -5,7 +5,7 @@
 
 #include <QObject>
 
-class ui_button : public QObject, public ui_element
+class ui_button : public ui_element
 {
     Q_OBJECT
 public:
@@ -18,7 +18,7 @@ public slots:
 
     // ui_element interface
 public:
-    void render();
+    void render(abstract_engine &eng);
     void update();
 };
 

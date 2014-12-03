@@ -5,9 +5,8 @@
 
 #include <QObject>
 
-class ui_window : public QObject, public ui_container, public ui_element
+class ui_window : public ui_container
 {
-    Q_OBJECT
 public:
     explicit ui_window(ui_element *parent = 0);
 
@@ -18,19 +17,18 @@ public slots:
 
     // ui_element interface
 public:
-    void render();
+    void render(abstract_engine &eng);
     void update();
 };
 
-class window_system : public QObject, public ui_container, public ui_element
+class window_system : public ui_container
 {
-    Q_OBJECT
 public:
     explicit window_system();
 
     // ui_element interface
 public:
-    void render();
+    void render(abstract_engine &eng);
     void update();
 
     void init();

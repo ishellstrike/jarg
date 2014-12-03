@@ -41,6 +41,8 @@ public:
     void drawLine(vec2 start, vec2 end, col4 color);
     void render();
     void setUniform(QMatrix4x4 mat);
+    void setScissor(vec2 loc, vec2 size);
+    void resetScissor();
 };
 
 #endif // SPRITEBATCH_H

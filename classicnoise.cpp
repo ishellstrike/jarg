@@ -2,9 +2,11 @@
 #include <QtOpenGL>
 #include <QVector3D>
 #include <QVector4D>
+#include "jmath.h"
 
-#define v3 QVector3D
-#define v4 QVector4D
+typedef QVector3D v3;
+typedef QVector4D v4;
+
 static const v3 grad3[] = {
     v3(1,1,0), v3(-1,1,0), v3(1,-1,0), v3(-1,-1,0),
     v3(1,0,1), v3(-1,0,1), v3(1,0,-1), v3(-1,0,-1),
@@ -59,30 +61,6 @@ static const int perm[] = {
     31, 181, 199, 106, 157, 184, 84, 204, 176, 115, 121, 50, 45, 127, 4, 150, 254,
     138, 236, 205, 93, 222, 114, 67, 29, 24, 72, 243, 141, 128, 195, 78, 66, 215,
     61, 156, 180};
-inline float dot3( v3 g, float x, float y, float z )
-{
-    return g[0] * x + g[1] * y + g[2] * z;
-}
-inline float dot4 ( v4 g, float x, float y, float z, float w )
-{
-    return g[0] * x + g[1] * y + g[2] * z + g[3] * w;
-}
-inline float dot2 ( v3 g, float x, float y )
-{
-    return g[0] * x + g[1] * y;
-}
-
-template < typename _Ty >
-inline _Ty mix (_Ty x, _Ty y, _Ty a)
-{
-    return x * (1.0 - a) + y * a;
-}
-
-template < typename _Ty >
-inline _Ty fade( _Ty t )
-{
-    return t * t * t * ( t * ( t * 6 - 15 ) + 10 );
-}
 
 float noise ( float x, float y, float z )
 {

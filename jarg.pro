@@ -31,7 +31,9 @@ HEADERS       = window.h \
     parser.h \
     ui_window.h \
     ui_container.h \
-    ui_button.h
+    ui_button.h \
+    jmath.h \
+    graphics_helper.h
 SOURCES       = main.cpp \
                 window.cpp \
     block.cpp \
