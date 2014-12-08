@@ -21,27 +21,28 @@ void ui_button::update()
 
 void ui_button::keyEvent(QKeyEvent *key)
 {
-
+    Q_UNUSED(key);
 }
 
 void ui_button::mousePress(QMouseEvent *mouse)
 {
+    Q_UNUSED(mouse);
     emit onPress();
 }
 
 void ui_button::mouseRelease(QMouseEvent *mouse)
 {
-
+    Q_UNUSED(mouse);
 }
 
 void ui_button::mouseDoubleClick(QMouseEvent *mouse)
 {
-
+    Q_UNUSED(mouse);
 }
 
 void ui_button::mouseMove(QMouseEvent *mouse)
 {
-
+    Q_UNUSED(mouse);
 }
 
 

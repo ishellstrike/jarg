@@ -15,7 +15,7 @@ class SpriteBatch : public abstract_engine
 public:
 
     SpriteBatch(JGraphics *parent, QOpenGLContext *context);
-    ~SpriteBatch();
+    virtual ~SpriteBatch();
 
     vec3 *pos;
     vec2 *uv;
@@ -29,7 +29,7 @@ public:
 
     JGraphics *m_parent;
     QOpenGLContext *m_context;
-    int current;
+    GLuint current;
 
     QOpenGLShaderProgram *texture_program, *color_program, *current_program;
     GLuint tex_pos_pos, tex_uv_pos, col_pos_pos, col_col_pos, col_uv_pos;

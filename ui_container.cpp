@@ -31,6 +31,7 @@ void ui_container::mousePress(QMouseEvent *mouse)
             }
             i->mousePress(mouse);
             break;
+
         }
     }
 }
@@ -92,7 +93,7 @@ void ui_container::update()
 
 void ui_container::keyEvent(QKeyEvent *key)
 {
-
+    Q_UNUSED(key);
 }
 
 ui_element::ui_element(ui_element *par) :
