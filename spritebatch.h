@@ -19,7 +19,7 @@ public:
 
     vec3 *pos;
     vec2 *uv;
-    QColor *col;
+    col4 *col;
     unsigned int *index;
     unsigned int cur;
 
@@ -32,12 +32,15 @@ public:
     int current;
 
     QOpenGLShaderProgram *texture_program, *color_program, *current_program;
+    GLuint tex_pos_pos, tex_uv_pos, col_pos_pos, col_col_pos, col_uv_pos;
 
     void bind(QOpenGLShaderProgram *prog);
 
     void drawQuad(vec2 loc, vec2 size, const Texture &tex);
     void drawQuadAtlas(vec2 loc, vec2 size, QString num);
     void drawRect(vec2 loc, vec2 size, col4 col);
+    void drawLine(vec2 loc, vec2 size, float width, col4 col);
+    void drawRect(vec2 loc, vec2 size, col4 left, col4 right);
     void drawLine(vec2 start, vec2 end, col4 color);
     void render();
     void setUniform(QMatrix4x4 mat);

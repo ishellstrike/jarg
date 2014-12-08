@@ -82,10 +82,10 @@ void SpriteBatch::drawQuadAtlas(vec2 loc, vec2 size, QString num)
     pos[cur*4 + 2] = vec3(loc.x() + size.x(), loc.y() + size.y(), 0);
     pos[cur*4 + 3] = vec3(loc.x(), loc.y() + size.y(), 0);
 
-    col[cur*4]     = Qt::white;
-    col[cur*4 + 1] = Qt::white;
-    col[cur*4 + 2] = Qt::white;
-    col[cur*4 + 3] = Qt::white;
+    col[cur*4]     = WHITE;
+    col[cur*4 + 1] = WHITE;
+    col[cur*4 + 2] = WHITE;
+    col[cur*4 + 3] = WHITE;
 
     vec2 source = inst->sources[num];
 
@@ -124,10 +124,10 @@ void SpriteBatch::drawQuad(vec2 loc, vec2 size, const Texture &tex)
     pos[cur*4 + 2] = vec3(loc.x() + size.x(), loc.y() + size.y(), 0);
     pos[cur*4 + 3] = vec3(loc.x(), loc.y() + size.y(), 0);
 
-    col[cur*4]     = Qt::white;
-    col[cur*4 + 1] = Qt::white;
-    col[cur*4 + 2] = Qt::white;
-    col[cur*4 + 3] = Qt::white;
+    col[cur*4]     = WHITE;
+    col[cur*4 + 1] = WHITE;
+    col[cur*4 + 2] = WHITE;
+    col[cur*4 + 3] = WHITE;
 
     uv[cur*4]      =vec2(0,0);
     uv[cur*4 + 1]  =vec2(1,0);
@@ -179,9 +179,78 @@ void SpriteBatch::drawRect(vec2 loc, vec2 size, col4 _col)
     cur++;
 }
 
-void SpriteBatch::drawLine(vec2 start, vec2 end, col4 color)
+void SpriteBatch::drawRect(vec2 loc, vec2 size, col4 left, col4 right)
 {
+    if(cur >= SIZE - 1)
+        render();
+    if(current_program != color_program)
+    {
+        render();
+        bind(color_program);
+    }
 
+    pos[cur*4]     = vec3(loc.x(), loc.y(), 0);
+    pos[cur*4 + 1] = vec3(loc.x() + size.x(), loc.y(), 0);
+    pos[cur*4 + 2] = vec3(loc.x() + size.x(), loc.y() + size.y(), 0);
+    pos[cur*4 + 3] = vec3(loc.x(), loc.y() + size.y(), 0);
+
+    col[cur*4]     = left;
+    col[cur*4 + 1] = left;
+    col[cur*4 + 2] = right;
+    col[cur*4 + 3] = right;
+
+    uv[cur*4]      = vec2(0,0);
+    uv[cur*4 + 1]  = vec2(1,0);
+    uv[cur*4 + 2]  = vec2(1,1);
+    uv[cur*4 + 3]  = vec2(0,1);
+
+    index[cur*6]     = cur*4;
+    index[cur*6 + 1] = cur*4 + 1;
+    index[cur*6 + 2] = cur*4 + 3;
+    index[cur*6 + 3] = cur*4 + 1;
+    index[cur*6 + 4] = cur*4 + 2;
+    index[cur*6 + 5] = cur*4 + 3;
+
+    cur++;
+}
+
+void SpriteBatch::drawLine(vec2 start, vec2 end, float width, col4 color)
+{
+    if(cur >= SIZE - 1)
+        render();
+    if(current_program != color_program)
+    {
+        render();
+        bind(color_program);
+    }
+
+    vec2 s = start;
+    vec2 e = end;
+
+
+    pos[cur*4]     = vec3(s.x(), s.y(), 0);
+    pos[cur*4 + 1] = vec3(s.x() + width, s.y(), 0);
+    pos[cur*4 + 2] = vec3(e.x() + width, e.y() + 1, 0);
+    pos[cur*4 + 3] = vec3(e.x(), e.y(), 0);
+
+    col[cur*4]     = color;
+    col[cur*4 + 1] = color;
+    col[cur*4 + 2] = color;
+    col[cur*4 + 3] = color;
+
+    uv[cur*4]      = vec2(0,0);
+    uv[cur*4 + 1]  = vec2(1,0);
+    uv[cur*4 + 2]  = vec2(1,1);
+    uv[cur*4 + 3]  = vec2(0,1);
+
+    index[cur*6]     = cur*4;
+    index[cur*6 + 1] = cur*4 + 1;
+    index[cur*6 + 2] = cur*4 + 3;
+    index[cur*6 + 3] = cur*4 + 1;
+    index[cur*6 + 4] = cur*4 + 2;
+    index[cur*6 + 5] = cur*4 + 3;
+
+    cur++;
 }
 
 void SpriteBatch::render()
@@ -223,7 +292,7 @@ void SpriteBatch::setScissor(vec2 loc, vec2 size)
 {
     render();
     m_parent->glEnable(GL_SCISSOR_TEST);
-    m_parent->glScissor(loc.x(), 500 - loc.y(), size.x(), size.y());
+    m_parent->glScissor(loc.x(), 500 - (loc.y() + size.y()), size.x(), size.y());
 }
 
 void SpriteBatch::resetScissor()

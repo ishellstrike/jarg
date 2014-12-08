@@ -43,6 +43,9 @@ public:
 
     float last_frame;
     void keyPressEvent(QKeyEvent *event);
+    void mousePressEvent(QMouseEvent *mouse);
+    void mouseReleaseEvent(QMouseEvent *mouse);
+    void mouseMoveEvent(QMouseEvent *mouse);
     void resizeGL(int w, int h);
     void resizeEvent(QResizeEvent *event);
     void initialize();

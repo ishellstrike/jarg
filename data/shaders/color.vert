@@ -8,9 +8,12 @@ attribute vec4 color;
 uniform mat4 MVP;
 
 varying vec4 fragColor;
+varying vec2 uv;
+
 
 void main(void)
 {
     gl_Position = MVP * vec4(position, 1);
     fragColor = color;
+    uv = texcoord;
 }

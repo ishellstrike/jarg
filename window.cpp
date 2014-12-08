@@ -100,6 +100,7 @@ bool MainWindow::event(QEvent *event)
     case QEvent::UpdateRequest:
         m_update_pending = false;
         renderNow();
+        ui_system->update();
         return true;
     default:
         return QWindow::event(event);
@@ -224,6 +225,25 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
     }
     QWindow::keyPressEvent(event);
+    ui_system->keyEvent(event);
+}
+
+void MainWindow::mousePressEvent(QMouseEvent *mouse)
+{
+    QWindow::mousePressEvent(mouse);
+    ui_system->mousePress(mouse);
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *mouse)
+{
+    QWindow::mouseReleaseEvent(mouse);
+    ui_system->mouseRelease(mouse);
+}
+
+void MainWindow::mouseMoveEvent(QMouseEvent *mouse)
+{
+    QWindow::mouseMoveEvent(mouse);
+    ui_system->mouseMove(mouse);
 }
 
 MainWindow::~MainWindow()
