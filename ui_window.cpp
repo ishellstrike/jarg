@@ -16,20 +16,8 @@ void ui_window::create()
 }
 
 ui_window::ui_window(ui_element *parent) :
-    ui_container(parent),
-    dragged(false),
-    closing(false),
-    color(1,1,1,1),
-    second_color(0.5,0.5,0.5,1)
+    ui_container(parent)
 {
-    create();
-}
-
-ui_window::ui_window(ui_window *copy) :
-    ui_container(copy->ui_parent)
-{
-    color = copy->color;
-    second_color = copy->second_color;
     create();
 }
 
@@ -37,9 +25,11 @@ void ui_window::render(abstract_engine &eng)
 {
     auto pos = get_position();
     drawBox(pos, size, color, eng);
-    drawBox(pos, vec2(size.x(), HEADER + OUTLINE*2), color, second_color, eng);
-    drawBox(pos + vec2(OUTLINE*2, OUTLINE*2 + HEADER),
+    drawBoxScissor(pos, vec2(size.x(), HEADER + OUTLINE*2), color, second_color, eng);
+    eng.drawText("caption", pos + vec2(OUTLINE, -OUTLINE), vec2(0.33,0.33));
+    drawBoxScissor(pos + vec2(OUTLINE*2, OUTLINE*2 + HEADER),
                    size - vec2((OUTLINE*2)*2, OUTLINE*4 + HEADER), color, eng);
+    eng.drawText("caption\n\nfdgdfg\ndfg\ndfgdfgdfgdfgdfgdfgdfgdfgdfg\n345345345345345\n3444444444444444444444444444444444", pos + vec2(OUTLINE, -OUTLINE) + vec2((OUTLINE*2)*2, OUTLINE*4 + HEADER), vec2(0.33,0.33));
 
     /*
      *
@@ -53,6 +43,8 @@ void ui_window::render(abstract_engine &eng)
     {
         i->render(eng);
     }
+    eng.resetScissor();
+    close_b->render(eng);
     eng.resetScissor();
 }
 
@@ -114,8 +106,5 @@ void window_system::init()
     b->size = vec2(100,20);    
     addElement(a);
     a->addElement(b);
-
-    for(int i=0; i<10;i++)
-        addElement(new ui_window(a));
 }
 

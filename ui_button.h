@@ -10,6 +10,7 @@ class ui_button : public ui_element
     Q_OBJECT
 public:
     explicit ui_button(ui_element *parent = 0);
+    ui_button (ui_button *copy);
 
     void render(abstract_engine &eng);
     void update();

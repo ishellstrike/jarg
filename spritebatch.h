@@ -8,6 +8,11 @@
 #include <QVector3D>
 #include <QOpenGLBuffer>
 
+#include <ft2build.h>
+#include <freetype.h>
+#include <config/ftheader.h>
+#include <QtMath>
+
 #define SIZE 10000
 
 class SpriteBatch : public abstract_engine
@@ -46,6 +51,12 @@ public:
     void setUniform(QMatrix4x4 mat);
     void setScissor(vec2 loc, vec2 size);
     void resetScissor();
+    void renderText(const char *text, float x, float y, float sx, float sy);
+    void drawText(const QString &text, vec2 pos, vec2 size);
+    void initFreeType();
+private:
+
+    FT_Face m_ftFace;
 };
 
 #endif // SPRITEBATCH_H

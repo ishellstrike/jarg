@@ -26,6 +26,12 @@ inline void drawBox(vec2 pos, vec2 size, vec4 col, vec4 col2, abstract_engine &e
     drawBoxOutline(pos, size, col, eng);
 }
 
+inline void drawBoxScissor(vec2 pos, vec2 size, vec4 col, vec4 col2, abstract_engine &eng)
+{
+   eng.drawRect(pos, size, col, col2);
+   eng.setScissor(pos + vec2(2, 2), size - vec2(4, 4));
+}
+
 inline void drawBoxScissor(vec2 pos, vec2 size, vec4 col, abstract_engine &eng)
 {
    drawBox(pos, size, col, eng);

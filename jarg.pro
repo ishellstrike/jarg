@@ -1,6 +1,10 @@
 QT           += opengl widgets network script core
 CONFIG       += c++11
 
+LIBS += -lfreetype
+
+INCLUDEPATH += /usr/include/freetype2
+
 HEADERS       = window.h \
     jlogger.h \
     block.h \
@@ -78,4 +82,6 @@ OTHER_FILES += \
     data/shaders/simple.frag \
     data/shaders/simple.vert \
     data/shaders/color.frag \
-    data/shaders/color.vert
+    data/shaders/color.vert \
+    data/fonts/Inconsolata.otf \
+    data/fonts/Test.TTF

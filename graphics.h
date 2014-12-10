@@ -39,6 +39,7 @@ public:
     virtual void setScissor(vec2 loc, vec2 size) = 0;
     virtual void resetScissor() = 0;
     virtual void render() = 0;
+    virtual void drawText(const QString &text, vec2 pos, vec2 size) = 0;
 };
 
 

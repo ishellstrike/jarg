@@ -12,13 +12,13 @@ class ui_window : public ui_container
     void create();
 public:
     explicit ui_window(ui_element *parent = 0);
-    ui_window(ui_window *copy);
 
-    bool dragged;
-    vec2 drag_point;
-    bool closing;
-    col4 color;
-    col4 second_color;
+    bool dragged = false;
+    vec2 drag_point = vec2(0,0);
+    bool closing = false;
+    col4 color = col4(1,1,1,1);
+    col4 second_color = col4(0.5,0.5,0.5,1);
+    bool nogui = false;
     void render(abstract_engine &eng);
     ui_close_button *close_b;
 public slots:

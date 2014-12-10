@@ -31,6 +31,96 @@ SpriteBatch::SpriteBatch(JGraphics *parent, QOpenGLContext *context) :
 
     color_program = new QOpenGLShaderProgram();
     loadShader("data/shaders/color.vert", "data/shaders/color.frag", color_program);
+
+    initFreeType();
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
+void SpriteBatch::initFreeType()
+{
+    FT_Library ft;
+    if(FT_Init_FreeType(&ft))
+    {
+        qDebug() << "could not init free type library.";
+        return;
+    }
+    else
+        qDebug() << "FT init OK";
+    QString fontPath = QApplication::applicationDirPath() + "/data/fonts/Inconsolata.otf";
+    if(FT_New_Face(ft, fontPath.toLatin1().data(), 0, &m_ftFace))
+    {
+        qDebug() << "Could not open font" << fontPath;
+        return;
+    }
+    else
+        qDebug() << "FT face OK";
+
+    FT_Set_Pixel_Sizes(m_ftFace, 0, 48);
+}
+
+void SpriteBatch::renderText(const char *text, float x, float y, float sx, float sy)
+{
+    float x_start = x;
+    const char *p;
+    FT_GlyphSlot ftGlyph = m_ftFace->glyph;
+    //GLuint coordAttr = m_program->attributeLocation("coord");
+    //m_program->enableAttributeArray(coordAttr);
+
+    GLuint ftTex;
+    Texture tex;
+    glGenTextures(1, &ftTex);
+    glBindTexture(GL_TEXTURE_2D, ftTex);
+
+    for(p = text; *p; p++)
+    {
+        if(*p == '\n')
+        {
+            y+=20;
+            x=x_start;
+        }
+        if(FT_Load_Char(m_ftFace, *p, FT_LOAD_RENDER))
+        {
+            qDebug() << "Could not load character" << *p;
+            continue;
+        }
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, ftGlyph->bitmap.width,
+                     ftGlyph->bitmap.rows, 0, GL_ALPHA, GL_UNSIGNED_BYTE,
+                     ftGlyph->bitmap.buffer);
+
+        float w = ftGlyph->bitmap.width * sx;
+        float h = ftGlyph->bitmap.rows * sy;
+        float x2 = x + ftGlyph->bitmap_left * sx;
+        float y2 = y + 20 - ftGlyph->bitmap_top * sy;
+
+        GLfloat box[4][4] =
+        {
+            {x2,     -y2    , 0, 0},
+            {x2 + w, -y2    , 1, 0},
+            {x2,     -y2 - h, 0, 1},
+            {x2 + w, -y2 - h, 1, 1},
+        };
+
+        tex.textureId = ftTex;
+        drawQuad(vec2(x2, y2), vec2(w, h), tex);
+        render();
+
+        x += (ftGlyph->advance.x >> 6) * sx;
+        y += (ftGlyph->advance.y >> 6) * sy;
+    }
+}
+
+void SpriteBatch::drawText(const QString &text, vec2 pos, vec2 size)
+{
+    renderText(text.toLatin1().data(), pos.x(), pos.y(), size.x(), size.y());
 }
 
 SpriteBatch::~SpriteBatch()
