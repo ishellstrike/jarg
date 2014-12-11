@@ -83,5 +83,4 @@ OTHER_FILES += \
     data/shaders/simple.vert \
     data/shaders/color.frag \
     data/shaders/color.vert \
-    data/fonts/Inconsolata.otf \
-    data/fonts/Test.TTF
+    data/fonts/Inconsolata.otf
