@@ -44,7 +44,8 @@ void Sector::Rebuild()
         }
 }
 
-Sector::Sector()
+Sector::Sector(int x_, int y_) :
+    offset(x,y)
 {
     m_blocks = new Block[RXYZ];
 }

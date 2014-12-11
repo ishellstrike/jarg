@@ -21,7 +21,7 @@ class Sector : public QObject
     QVector<GLuint> indeces;
     QVector2D offset;
 public:
-    Sector();
+    Sector(int x_, int y_);
     virtual ~Sector();
     void render();
 

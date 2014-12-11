@@ -4,10 +4,11 @@
 #include "sector.h"
 #include <QVector>
 #include <QObject>
+#include "jmath.h"
 
 struct SectorList
 {
-    QVector<Sector *> data;
+    QHash<vec2, Sector *> data;
     SectorList();
     ~SectorList();
 
