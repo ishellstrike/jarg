@@ -1,5 +1,6 @@
 #include "levelworker.h"
 #include "jmath.h"
+#include "sector.h"
 
 LevelWorker::LevelWorker(QObject *parent) :
     QObject(parent)
@@ -16,9 +17,12 @@ LevelWorker::~LevelWorker()
 
 Sector *LevelWorker::getSector(int x, int y)
 {
-    if(active->data.contains(vec2(x,y)))
-    Sector *sec = new Sector(x, y);
-    sec->Rebuild();
-    active->data.push_back(sec);
-    return sec;
+    Sector *sect;
+    if(!active->data.contains(vec2hash(x, y)))
+        sect = new Sector(x, y);
+    else
+        sect = active->data[vec2hash(x, y)];
+    sect->Rebuild();
+    active->data.insert(vec2hash(x, y), sect);
+    return sect;
 }

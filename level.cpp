@@ -17,7 +17,7 @@ void Level::render()
 
 void Level::preload(int x, int y)
 {
-    toRender->data.push_back(worker->getSector(x, y));
+    toRender->data.insert(vec2hash(x, y), worker->getSector(x, y));
 }
 
 void Level::setWorker(LevelWorker *w)

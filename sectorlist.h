@@ -8,7 +8,7 @@
 
 struct SectorList
 {
-    QHash<vec2, Sector *> data;
+    QHash<uint, Sector *> data;
     SectorList();
     ~SectorList();
 
