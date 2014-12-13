@@ -85,8 +85,10 @@ void MainWindow::render()
 
     batch->setUniform(m_projection * m_modelView);
     batch->drawQuadAtlas(vec2(0,0), vec2(200,200), "error");
+    batch->drawQuad(vec2(50,50), vec2(200,200), *JAtlas::instance()->tex);
     //batch->drawRect(vec2(10,10), vec2(100,100), Qt::white);
 
+    batch->render();
     ui_system->render(*batch);
 
     batch->render();

@@ -26,10 +26,11 @@ void ui_window::render(abstract_engine &eng)
     auto pos = get_position();
     drawBox(pos, size, color, eng);
     drawBoxScissor(pos, vec2(size.x(), HEADER + OUTLINE*2), color, second_color, eng);
-    eng.drawText("caption", pos + vec2(OUTLINE, -OUTLINE), vec2(0.33,0.33));
+    eng.drawText("caption", pos + vec2(OUTLINE, -OUTLINE), vec2(0.33,0.33), BLACK);
     drawBoxScissor(pos + vec2(OUTLINE*2, OUTLINE*2 + HEADER),
                    size - vec2((OUTLINE*2)*2, OUTLINE*4 + HEADER), color, eng);
-    eng.drawText("caption\n\nfdgdfg\ndfg\ndfgdfgdfgdfgdfgdfgdfgdfgdfg\n345345345345345\n3444444444444444444444444444444444", pos + vec2(OUTLINE, -OUTLINE) + vec2((OUTLINE*2)*2, OUTLINE*4 + HEADER), vec2(0.33,0.33));
+    eng.drawText("caption\n\nfdgdfg\ndfg\ndfgdfgdfgdfgdfgdfgdfgdfgdfg\n345345345345345\n3444444444444444444444444444444444",
+                 pos + vec2(OUTLINE, -OUTLINE) + vec2((OUTLINE*2)*2, OUTLINE*4 + HEADER), vec2(0.33,0.33), RED);
 
     /*
      *

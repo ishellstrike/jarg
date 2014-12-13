@@ -56,6 +56,6 @@ void ui_close_button::render(abstract_engine &eng)
 {
     ui_button::render(eng);
     auto p = get_position();
-    eng.drawLine(p, p + size, 2, LIGHTGRAY/2);
-    eng.drawLine(p + vec2(0, size.y()), p + vec2(size.x(), 0), 2, LIGHTGRAY/2);
+    drawLineEx(p, size - vec2(1, 0), LIGHTGRAY/2, eng, 3, vec2(0, 0), vec2(0.5, 0.5), vec2(1, 0));
+    drawLineEx(p, size - vec2(1, 0), LIGHTGRAY/2, eng, 3, vec2(0, 1), vec2(0.5, 0.5), vec2(1, 1));
 }

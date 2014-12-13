@@ -36,13 +36,13 @@ public:
     QOpenGLContext *m_context;
     GLuint current;
 
-    QOpenGLShaderProgram *texture_program, *color_program, *current_program;
+    QOpenGLShaderProgram *texture_program, *color_program, *font_program, *current_program;
     GLuint tex_pos_pos, tex_uv_pos, col_pos_pos, col_col_pos, col_uv_pos;
 
     void bind(QOpenGLShaderProgram *prog);
 
-    void drawQuad(vec2 loc, vec2 size, const Texture &tex);
-    void drawQuadAtlas(vec2 loc, vec2 size, QString num);
+    void drawQuad(vec2 loc, vec2 size, const Texture &tex, vec4 col = WHITE);
+    void drawQuadAtlas(vec2 loc, vec2 size, QString num, vec4 col = WHITE);
     void drawRect(vec2 loc, vec2 size, col4 col);
     void drawLine(vec2 loc, vec2 size, float width, col4 col);
     void drawRect(vec2 loc, vec2 size, col4 left, col4 right);
@@ -51,12 +51,13 @@ public:
     void setUniform(QMatrix4x4 mat);
     void setScissor(vec2 loc, vec2 size);
     void resetScissor();
-    void renderText(const char *text, float x, float y, float sx, float sy);
-    void drawText(const QString &text, vec2 pos, vec2 size);
+    void drawText(const QString &text, vec2 pos, vec2 size, vec4 col = WHITE);
     void initFreeType();
 private:
 
     FT_Face m_ftFace;
+    void drawQuadText(vec2 loc, vec2 size, const Texture &tex, vec4 col = WHITE);
+    void renderText(const char *text, float x, float y, float sx, float sy, vec4 col_ = WHITE);
 };
 
 #endif // SPRITEBATCH_H

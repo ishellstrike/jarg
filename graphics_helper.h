@@ -6,6 +6,25 @@
 #define RAMK 5
 #define HEADER 20
 
+inline void drawLineEx(vec2 loc, vec2 size, col4 col, abstract_engine &eng, int count, ...)
+{
+    if(count < 2)
+        return;
+
+    va_list ap;
+    va_start(ap, count);
+    vec2 p = va_arg(ap, vec2);
+    count--;
+    while (count--)
+    {
+        vec2 pre = p;
+        p = va_arg(ap, vec2);
+
+        eng.drawLine(loc + (size * pre), loc + (size * p), OUTLINE, col);
+    }
+    va_end(ap);
+}
+
 inline void drawBoxOutline(vec2 pos, vec2 size, col4 col, abstract_engine &eng)
 {
     eng.drawRect(pos, vec2(size.x(), OUTLINE), col/2);

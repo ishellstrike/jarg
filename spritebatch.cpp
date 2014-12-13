@@ -32,6 +32,9 @@ SpriteBatch::SpriteBatch(JGraphics *parent, QOpenGLContext *context) :
     color_program = new QOpenGLShaderProgram();
     loadShader("data/shaders/color.vert", "data/shaders/color.frag", color_program);
 
+    font_program = new QOpenGLShaderProgram();
+    loadShader("data/shaders/font.vert", "data/shaders/font.frag", font_program);
+
     initFreeType();
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
@@ -62,13 +65,11 @@ void SpriteBatch::initFreeType()
     FT_Set_Pixel_Sizes(m_ftFace, 0, 48);
 }
 
-void SpriteBatch::renderText(const char *text, float x, float y, float sx, float sy)
+void SpriteBatch::renderText(const char *text, float x, float y, float sx, float sy, vec4 col_)
 {
     float x_start = x;
     const char *p;
     FT_GlyphSlot ftGlyph = m_ftFace->glyph;
-    //GLuint coordAttr = m_program->attributeLocation("coord");
-    //m_program->enableAttributeArray(coordAttr);
 
     GLuint ftTex;
     Texture tex;
@@ -110,7 +111,7 @@ void SpriteBatch::renderText(const char *text, float x, float y, float sx, float
         };
 
         tex.textureId = ftTex;
-        drawQuad(vec2(x2, y2), vec2(w, h), tex);
+        drawQuadText(vec2(x2, y2), vec2(w, h), tex, col_);
         render();
 
         x += (ftGlyph->advance.x >> 6) * sx;
@@ -118,9 +119,9 @@ void SpriteBatch::renderText(const char *text, float x, float y, float sx, float
     }
 }
 
-void SpriteBatch::drawText(const QString &text, vec2 pos, vec2 size)
+void SpriteBatch::drawText(const QString &text, vec2 pos, vec2 size, vec4 col_)
 {
-    renderText(text.toLatin1().data(), pos.x(), pos.y(), size.x(), size.y());
+    renderText(text.toLatin1().data(), pos.x(), pos.y(), size.x(), size.y(), col_);
 }
 
 SpriteBatch::~SpriteBatch()
@@ -138,6 +139,7 @@ SpriteBatch::~SpriteBatch()
 
     delete texture_program;
     delete color_program;
+    delete font_program;
 }
 
 void SpriteBatch::bind(QOpenGLShaderProgram *prog)
@@ -147,7 +149,7 @@ void SpriteBatch::bind(QOpenGLShaderProgram *prog)
     prog->setUniformValue("MVP", uni);
 }
 
-void SpriteBatch::drawQuadAtlas(vec2 loc, vec2 size, QString num)
+void SpriteBatch::drawQuadAtlas(vec2 loc, vec2 size, QString num, vec4 col_)
 {
     auto inst = JAtlas::instance();
     if(inst->tex->textureId != current)
@@ -172,10 +174,10 @@ void SpriteBatch::drawQuadAtlas(vec2 loc, vec2 size, QString num)
     pos[cur*4 + 2] = vec3(loc.x() + size.x(), loc.y() + size.y(), 0);
     pos[cur*4 + 3] = vec3(loc.x(), loc.y() + size.y(), 0);
 
-    col[cur*4]     = WHITE;
-    col[cur*4 + 1] = WHITE;
-    col[cur*4 + 2] = WHITE;
-    col[cur*4 + 3] = WHITE;
+    col[cur*4]     = col_;
+    col[cur*4 + 1] = col_;
+    col[cur*4 + 2] = col_;
+    col[cur*4 + 3] = col_;
 
     vec2 source = inst->sources[num];
 
@@ -194,7 +196,47 @@ void SpriteBatch::drawQuadAtlas(vec2 loc, vec2 size, QString num)
     cur++;
 }
 
-void SpriteBatch::drawQuad(vec2 loc, vec2 size, const Texture &tex)
+void SpriteBatch::drawQuadText(vec2 loc, vec2 size, const Texture &tex, vec4 col_)
+{
+    if(tex.textureId != current)
+    {
+        render();
+        current = tex.textureId;
+    }
+    if(current_program != font_program)
+    {
+        render();
+        bind(font_program);
+    }
+    if(cur >= SIZE - 1)
+        render();
+
+    pos[cur*4]     = vec3(loc.x(), loc.y(), 0);
+    pos[cur*4 + 1] = vec3(loc.x() + size.x(), loc.y(), 0);
+    pos[cur*4 + 2] = vec3(loc.x() + size.x(), loc.y() + size.y(), 0);
+    pos[cur*4 + 3] = vec3(loc.x(), loc.y() + size.y(), 0);
+
+    col[cur*4]     = col_;
+    col[cur*4 + 1] = col_;
+    col[cur*4 + 2] = col_;
+    col[cur*4 + 3] = col_;
+
+    uv[cur*4]      =vec2(0,0);
+    uv[cur*4 + 1]  =vec2(1,0);
+    uv[cur*4 + 2]  =vec2(1,1);
+    uv[cur*4 + 3]  =vec2(0,1);
+
+    index[cur*6]     = cur*4;
+    index[cur*6 + 1] = cur*4 + 1;
+    index[cur*6 + 2] = cur*4 + 3;
+    index[cur*6 + 3] = cur*4 + 1;
+    index[cur*6 + 4] = cur*4 + 2;
+    index[cur*6 + 5] = cur*4 + 3;
+
+    cur++;
+}
+
+void SpriteBatch::drawQuad(vec2 loc, vec2 size, const Texture &tex, vec4 col_)
 {
     if(tex.textureId != current)
     {
@@ -214,10 +256,10 @@ void SpriteBatch::drawQuad(vec2 loc, vec2 size, const Texture &tex)
     pos[cur*4 + 2] = vec3(loc.x() + size.x(), loc.y() + size.y(), 0);
     pos[cur*4 + 3] = vec3(loc.x(), loc.y() + size.y(), 0);
 
-    col[cur*4]     = WHITE;
-    col[cur*4 + 1] = WHITE;
-    col[cur*4 + 2] = WHITE;
-    col[cur*4 + 3] = WHITE;
+    col[cur*4]     = col_;
+    col[cur*4 + 1] = col_;
+    col[cur*4 + 2] = col_;
+    col[cur*4 + 3] = col_;
 
     uv[cur*4]      =vec2(0,0);
     uv[cur*4 + 1]  =vec2(1,0);

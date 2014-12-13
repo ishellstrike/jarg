@@ -32,14 +32,14 @@ class abstract_engine
 {
 public:
     virtual void drawLine(vec2 loc, vec2 size, float width, col4 col) = 0;
-    virtual void drawQuad(vec2 loc, vec2 size, const Texture &tex) = 0;
-    virtual void drawQuadAtlas(vec2 loc, vec2 size, QString tex) = 0;
+    virtual void drawQuad(vec2 loc, vec2 size, const Texture &tex, vec4 col = WHITE) = 0;
+    virtual void drawQuadAtlas(vec2 loc, vec2 size, QString tex, vec4 col = WHITE) = 0;
     virtual void drawRect(vec2 loc, vec2 size, col4 col) = 0;
     virtual void drawRect(vec2 loc, vec2 size, col4 col, col4 col2) = 0;
     virtual void setScissor(vec2 loc, vec2 size) = 0;
     virtual void resetScissor() = 0;
     virtual void render() = 0;
-    virtual void drawText(const QString &text, vec2 pos, vec2 size) = 0;
+    virtual void drawText(const QString &text, vec2 pos, vec2 size, vec4 col = WHITE) = 0;
 };
 
 

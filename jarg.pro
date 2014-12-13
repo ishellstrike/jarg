@@ -3,6 +3,11 @@ CONFIG       += c++11
 
 LIBS += -lfreetype
 
+TARGET = jarg
+CONFIG   += qt
+TEMPLATE = app
+SOURCES += main.cpp
+
 INCLUDEPATH += /usr/include/freetype2
 
 HEADERS       = window.h \
@@ -83,4 +88,8 @@ OTHER_FILES += \
     data/shaders/simple.vert \
     data/shaders/color.frag \
     data/shaders/color.vert \
-    data/fonts/Inconsolata.otf
+    data/fonts/Inconsolata.otf \
+    data/shaders/font.frag \
+    data/shaders/font.vert
+
+message($${CONFIG})
