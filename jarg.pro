@@ -6,7 +6,10 @@ LIBS += -lfreetype
 TARGET = jarg
 CONFIG   += qt
 TEMPLATE = app
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    ui_label.cpp \
+    ui_label.cpp \
+    ui_element.cpp
 
 INCLUDEPATH += /usr/include/freetype2
 
@@ -42,7 +45,8 @@ HEADERS       = window.h \
     ui_container.h \
     ui_button.h \
     jmath.h \
-    graphics_helper.h
+    graphics_helper.h \
+    ui_label.h
 SOURCES       = main.cpp \
                 window.cpp \
     block.cpp \
@@ -70,7 +74,8 @@ SOURCES       = main.cpp \
     spritebatch.cpp \
     ui_window.cpp \
     ui_container.cpp \
-    ui_button.cpp
+    ui_button.cpp \
+    ui_label.cpp
 
 OTHER_FILES += \
     test.js \

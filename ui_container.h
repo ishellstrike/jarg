@@ -5,12 +5,14 @@
 #include "graphics.h"
 #include "jtexture.h"
 
+class ui_container;
+
 class ui_element : public QObject
 {
     Q_OBJECT
 public:
-    explicit ui_element(ui_element *par = 0);
-    ui_element *ui_parent;
+    explicit ui_element(ui_container *par = 0);
+    ui_container *ui_parent;
 
     //call automatically via QObject destruction
     ~ui_element();
@@ -34,18 +36,18 @@ public slots:
 class ui_container : public ui_element
 {
     Q_OBJECT
+
 public:
-    explicit ui_container(ui_element *par = 0);
+    explicit ui_container(ui_container *par = 0);
 
     //call automatically via QObject destruction
     ~ui_container();
 
     QVector<ui_element *> elements;
-    void addElement(ui_element *element);
 
     void render(abstract_engine &eng);
     void update();
-
+    void addElement(ui_element *element);
 public slots:
     void mousePress(QMouseEvent *mouse);
     void mouseRelease(QMouseEvent *mouse);

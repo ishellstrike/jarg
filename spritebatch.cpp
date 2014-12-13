@@ -35,6 +35,9 @@ SpriteBatch::SpriteBatch(JGraphics *parent, QOpenGLContext *context) :
     font_program = new QOpenGLShaderProgram();
     loadShader("data/shaders/font.vert", "data/shaders/font.frag", font_program);
 
+    bind(font_program);
+    texture_program->setUniformValue("colorTexture", 0);
+
     initFreeType();
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
@@ -152,16 +155,18 @@ void SpriteBatch::bind(QOpenGLShaderProgram *prog)
 void SpriteBatch::drawQuadAtlas(vec2 loc, vec2 size, QString num, vec4 col_)
 {
     auto inst = JAtlas::instance();
-    if(inst->tex->textureId != current)
-    {
-        render();
-        current = inst->tex->textureId;
-    }
     if(current_program != texture_program)
     {
         render();
         bind(texture_program);
+    }    if(inst->tex->textureId != current)
+    {
+        render();
+        current = inst->tex->textureId;
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, current);
     }
+
     if(cur >= SIZE - 1)
         render();
 
@@ -198,16 +203,19 @@ void SpriteBatch::drawQuadAtlas(vec2 loc, vec2 size, QString num, vec4 col_)
 
 void SpriteBatch::drawQuadText(vec2 loc, vec2 size, const Texture &tex, vec4 col_)
 {
-    if(tex.textureId != current)
-    {
-        render();
-        current = tex.textureId;
-    }
     if(current_program != font_program)
     {
         render();
         bind(font_program);
     }
+    if(tex.textureId != current)
+    {
+        render();
+        current = tex.textureId;
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, current);
+    }
+
     if(cur >= SIZE - 1)
         render();
 
@@ -238,15 +246,17 @@ void SpriteBatch::drawQuadText(vec2 loc, vec2 size, const Texture &tex, vec4 col
 
 void SpriteBatch::drawQuad(vec2 loc, vec2 size, const Texture &tex, vec4 col_)
 {
-    if(tex.textureId != current)
-    {
-        render();
-        current = tex.textureId;
-    }
     if(current_program != texture_program)
     {
         render();
         bind(texture_program);
+    }
+    if(tex.textureId != current)
+    {
+        render();
+        current = tex.textureId;
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, current);
     }
     if(cur >= SIZE - 1)
         render();

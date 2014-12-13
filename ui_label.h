@@ -1,19 +1,20 @@
-#ifndef UI_BUTTON_H
-#define UI_BUTTON_H
+#ifndef UI_LABEL_H
+#define UI_LABEL_H
 
 #include "ui_container.h"
-
 #include <QObject>
 
-class ui_button : public ui_element
+class ui_label : public ui_element
 {
     Q_OBJECT
 public:
-    explicit ui_button(ui_container *parent = 0);
-    ui_button (ui_button *copy);
+    explicit ui_label(ui_container *parent = 0);
+    ui_label (ui_label *copy);
 
     void render(abstract_engine &eng);
     void update();
+
+    QString text;
 
 public slots:
     void keyEvent(QKeyEvent *key);
@@ -26,12 +27,4 @@ signals:
     void onPress();
 };
 
-class ui_close_button : public ui_button
-{
-    Q_OBJECT
-public:
-    explicit ui_close_button(ui_container *parent = 0);
-    void render(abstract_engine &eng);
-};
-
-#endif // UI_BUTTON_H
+#endif // UI_LABEL_H

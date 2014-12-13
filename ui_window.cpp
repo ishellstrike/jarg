@@ -11,11 +11,11 @@ void ui_window::create()
     close_b = new ui_close_button(this);
     close_b->loc = vec2(size.x() - 18 - OUTLINE*1.5, OUTLINE*1.5);
     close_b->size = vec2(18, 18);
-    addElement(close_b);
     connect(close_b, SIGNAL(onPress()), this, SLOT(close()));
+    title = "window";
 }
 
-ui_window::ui_window(ui_element *parent) :
+ui_window::ui_window(ui_container *parent) :
     ui_container(parent)
 {
     create();
@@ -26,11 +26,9 @@ void ui_window::render(abstract_engine &eng)
     auto pos = get_position();
     drawBox(pos, size, color, eng);
     drawBoxScissor(pos, vec2(size.x(), HEADER + OUTLINE*2), color, second_color, eng);
-    eng.drawText("caption", pos + vec2(OUTLINE, -OUTLINE), vec2(0.33,0.33), BLACK);
+    eng.drawText(title, pos + vec2(OUTLINE, -OUTLINE), vec2(0.33,0.33), BLACK);
     drawBoxScissor(pos + vec2(OUTLINE*2, OUTLINE*2 + HEADER),
                    size - vec2((OUTLINE*2)*2, OUTLINE*4 + HEADER), color, eng);
-    eng.drawText("caption\n\nfdgdfg\ndfg\ndfgdfgdfgdfgdfgdfgdfgdfgdfg\n345345345345345\n3444444444444444444444444444444444",
-                 pos + vec2(OUTLINE, -OUTLINE) + vec2((OUTLINE*2)*2, OUTLINE*4 + HEADER), vec2(0.33,0.33), RED);
 
     /*
      *
@@ -101,11 +99,9 @@ void window_system::update()
 
 void window_system::init()
 {
-    auto a = new ui_window(this);
-    auto b = new ui_button(a);
-    b->loc = vec2(70, 50);
-    b->size = vec2(100,20);    
-    addElement(a);
-    a->addElement(b);
+   auto a = new ui_window(this);
+   auto b = new ui_button(a);
+   b->loc = vec2(70, 50);
+   b->size = vec2(100,20);
 }
 

@@ -2,7 +2,7 @@
 #include "window.h"
 #include "graphics_helper.h"
 
-ui_button::ui_button(ui_element *parent) :
+ui_button::ui_button(ui_container *parent) :
     ui_element(parent)
 {
     size = vec2(50, 20);
@@ -46,7 +46,7 @@ void ui_button::mouseMove(QMouseEvent *mouse)
 }
 
 
-ui_close_button::ui_close_button(ui_element *parent) :
+ui_close_button::ui_close_button(ui_container *parent) :
     ui_button(parent)
 {
 

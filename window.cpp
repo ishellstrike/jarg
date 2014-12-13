@@ -4,6 +4,7 @@
 #include "blockdatabase.h"
 #include "jatlas.h"
 #include "sector.h"
+#include "ui_label.h"
 #include <QList>
 
 MainWindow::MainWindow(QScreen *screen) :
@@ -65,6 +66,16 @@ MainWindow::MainWindow(QScreen *screen) :
     MainWindow::ui_system = new window_system();
     MainWindow::ui_system->init();
 
+    ui_window *w = new ui_window(ui_system);
+    ui_label *l = new ui_label(w);
+    l->loc = vec2(100,100);
+    l->text = "123";
+
+    w = new ui_window(ui_system);
+    l = new ui_label(w);
+    l->text = "123";
+    ww = w;
+
     m_timeMonitor = new QOpenGLTimeMonitor();
     m_timeMonitor->setSampleCount(3);
     if ( !m_timeMonitor->create() )
@@ -90,6 +101,7 @@ void MainWindow::render()
 
     batch->render();
     ui_system->render(*batch);
+    ww->title = QString("%1ms").arg(last_frame);
 
     batch->render();
     m_program->release();

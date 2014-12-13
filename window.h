@@ -24,6 +24,7 @@ public:
     GLfloat *triangleVertices;
     GLfloat *quadVertices;
     int m_w, m_h;
+    ui_window *ww;
 
     bool event(QEvent *event);
     void exposeEvent(QExposeEvent *event);

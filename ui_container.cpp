@@ -1,9 +1,10 @@
 #include "ui_container.h"
 
-ui_container::ui_container(ui_element *par) :
+ui_container::ui_container(ui_container *par) :
     elements(),
     ui_element(par)
 {
+
 }
 
 ui_container::~ui_container()
@@ -96,11 +97,15 @@ void ui_container::keyEvent(QKeyEvent *key)
     Q_UNUSED(key);
 }
 
-ui_element::ui_element(ui_element *par) :
+ui_element::ui_element(ui_container *par) :
     ui_parent(par),
     QObject(par),
     aimed(false)
 {
+    if(par)
+    {
+        par->addElement(this);
+    }
 }
 
 ui_element::~ui_element()

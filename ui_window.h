@@ -11,7 +11,7 @@ class ui_window : public ui_container
     Q_OBJECT
     void create();
 public:
-    explicit ui_window(ui_element *parent = 0);
+    explicit ui_window(ui_container *parent = 0);
 
     bool dragged = false;
     vec2 drag_point = vec2(0,0);
@@ -21,6 +21,7 @@ public:
     bool nogui = false;
     void render(abstract_engine &eng);
     ui_close_button *close_b;
+    QString title;
 public slots:
     void mousePress(QMouseEvent *mouse);
     void mouseRelease(QMouseEvent *mouse);
