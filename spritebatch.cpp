@@ -1,7 +1,7 @@
 #include "spritebatch.h"
 #include <QGLFunctions>
 #include "jatlas.h"
-
+#include <settings.h>
 
 SpriteBatch::SpriteBatch(JGraphics *parent, QOpenGLContext *context) :
     m_parent(parent),
@@ -434,7 +434,7 @@ void SpriteBatch::setScissor(vec2 loc, vec2 size)
 {
     render();
     m_parent->glEnable(GL_SCISSOR_TEST);
-    m_parent->glScissor(loc.x(), 500 - (loc.y() + size.y()), size.x(), size.y());
+    m_parent->glScissor(loc.x(), Settings::instance()->resolution.y() - (loc.y() + size.y()), size.x(), size.y());
 }
 
 void SpriteBatch::resetScissor()

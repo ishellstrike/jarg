@@ -1,11 +1,12 @@
-#include "window.h"
-#include "jscript.h"
-#include "itemdatabase.h"
-#include "blockdatabase.h"
-#include "jatlas.h"
-#include "sector.h"
-#include "ui_label.h"
+#include <window.h>
+#include <jscript.h>
+#include <itemdatabase.h>
+#include <blockdatabase.h>
+#include <jatlas.h>
+#include <sector.h>
+#include <ui_label.h>
 #include <QList>
+#include <settings.h>
 
 MainWindow::MainWindow(QScreen *screen) :
     QWindow(screen)
@@ -211,8 +212,7 @@ void MainWindow::resizeGL(int w, int h)
 {
     if(h == 0)
         h = 1;
-    m_w = w;
-    m_h = h;
+    Settings::instance()->resolution = vec2(w, h);
     glViewport(0, 0, w, h);
     m_projection.setToIdentity();
     m_projection.ortho(0,w,h,0,0.1,100);//.perspective(45, (float)w/float(h), 1, 1000);

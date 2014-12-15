@@ -9,7 +9,9 @@ TEMPLATE = app
 SOURCES += main.cpp \
     ui_label.cpp \
     ui_label.cpp \
-    ui_element.cpp
+    ui_element.cpp \
+    settings.cpp \
+    settings.cpp
 
 INCLUDEPATH += /usr/include/freetype2
 
@@ -46,7 +48,8 @@ HEADERS       = window.h \
     ui_button.h \
     jmath.h \
     graphics_helper.h \
-    ui_label.h
+    ui_label.h \
+    settings.h
 SOURCES       = main.cpp \
                 window.cpp \
     block.cpp \
@@ -68,6 +71,7 @@ SOURCES       = main.cpp \
     vertex.cpp \
     levelworker.cpp \
     sectorlist.cpp \
+    settings.cpp \
     sectorrenderer.cpp \
     agent.cpp \
     classicnoise.cpp \

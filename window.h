@@ -23,7 +23,6 @@ public:
     uint m_vboIds[2];
     GLfloat *triangleVertices;
     GLfloat *quadVertices;
-    int m_w, m_h;
     ui_window *ww;
 
     bool event(QEvent *event);
