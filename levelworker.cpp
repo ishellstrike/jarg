@@ -7,6 +7,7 @@ LevelWorker::LevelWorker(QObject *parent) :
 {
     active = new SectorList();
     mem = new SectorList();
+    qDebug() << "init level worker";
 }
 
 LevelWorker::~LevelWorker()

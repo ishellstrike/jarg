@@ -5,13 +5,12 @@
 #include <QObject>
 #include <QVector>
 #include "agent.h"
+#include "graphics.h"
 #include "vertex.h"
 
 #define RX 25
 #define RY 25
-#define RZ 10
-#define RYRZ RY*RZ
-#define RXYZ RX*RY*RZ
+#define RXY RX*RY
 
 class Sector : public QObject
 {
@@ -19,12 +18,11 @@ class Sector : public QObject
     Block *m_blocks;
     QVector<Vertex> geom;
     QVector<GLuint> indeces;
-    QVector2D offset;
 public:
     Sector(int x_, int y_);
     virtual ~Sector();
-    void render();
-
+    void render(abstract_engine *eng);
+    vec2 offset;
     void Rebuild();
 signals:
 

@@ -47,7 +47,7 @@ void Sector::Rebuild()
 Sector::Sector(int x_, int y_) :
     offset(x_,y_)
 {
-    m_blocks = new Block[RXYZ];
+    m_blocks = new Block[RXY];
 }
 
 Sector::~Sector()
@@ -56,10 +56,13 @@ Sector::~Sector()
     m_blocks = nullptr;
 }
 
-void Sector::render()
+void Sector::render(abstract_engine *eng)
 {
-    //renderText(10,10, QString("qweqweqw"));
-    //glDrawElements(GL_TRIANGLE_FAN, geom.size(), GL_UNSIGNED_INT, indeces.constData());
+    for(int i = 0; i < RX; i++)
+        for(int j = 0; j < RY; j++)
+        {
+            eng->drawQuadAtlas(vec2(i*32 + offset.x()*32*32, j*32 + offset.y()*32*32), vec2(32,32), "error");
+        }
 }
 
 void Sector::setBlock(int x, int y, const QString &id)

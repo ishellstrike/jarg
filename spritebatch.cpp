@@ -68,9 +68,11 @@ void SpriteBatch::initFreeType()
     FT_Set_Pixel_Sizes(m_ftFace, 0, 48);
 }
 
-void SpriteBatch::renderText(const char *text, float x, float y, float sx, float sy, vec4 col_)
+vec2 SpriteBatch::renderText(const char *text, float x, float y, float sx, float sy, vec4 col_)
 {
     float x_start = x;
+    float y_start = y;
+    float x_max = 0;
     const char *p;
     FT_GlyphSlot ftGlyph = m_ftFace->glyph;
 
@@ -85,6 +87,7 @@ void SpriteBatch::renderText(const char *text, float x, float y, float sx, float
         {
             y+=20;
             x=x_start;
+            continue;
         }
         if(FT_Load_Char(m_ftFace, *p, FT_LOAD_RENDER))
         {
@@ -119,12 +122,14 @@ void SpriteBatch::renderText(const char *text, float x, float y, float sx, float
 
         x += (ftGlyph->advance.x >> 6) * sx;
         y += (ftGlyph->advance.y >> 6) * sy;
+        x_max = max(x, x_max);
     }
+    return vec2(x_max - x_start, y - y_start);
 }
 
-void SpriteBatch::drawText(const QString &text, vec2 pos, vec2 size, vec4 col_)
+vec2 SpriteBatch::drawText(const QString &text, vec2 pos, vec2 size, vec4 col_)
 {
-    renderText(text.toLatin1().data(), pos.x(), pos.y(), size.x(), size.y(), col_);
+    renderText(text.toLatin1().data(), pos.x() + 1, pos.y(), size.x(), size.y(), col_);
 }
 
 SpriteBatch::~SpriteBatch()

@@ -11,6 +11,7 @@ void ui_window::create()
     close_b = new ui_close_button(this);
     close_b->loc = vec2(size.x() - 18 - OUTLINE*1.5, OUTLINE*1.5);
     close_b->size = vec2(18, 18);
+    close_b->text = "";
     connect(close_b, SIGNAL(onPress()), this, SLOT(close()));
     title = "window";
 }
@@ -24,7 +25,7 @@ ui_window::ui_window(ui_container *parent) :
 void ui_window::render(abstract_engine &eng)
 {
     auto pos = get_position();
-    drawBoxOutline(pos, size, color, eng);
+    drawBox(pos, size, color, eng);
     drawBoxScissor(pos, vec2(size.x(), HEADER + OUTLINE*2), color, second_color, eng);
     eng.drawText(title, pos + vec2(OUTLINE, -OUTLINE), vec2(0.33,0.33), BLACK);
     drawBoxScissor(pos + vec2(OUTLINE*2, OUTLINE*2 + HEADER),

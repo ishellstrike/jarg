@@ -11,7 +11,7 @@ ui_label::ui_label(ui_container *parent) :
 void ui_label::render(abstract_engine &eng)
 {
     auto pos = get_position();
-    eng.drawText(text, pos, size, RED);
+    eng.drawText(text, pos, vec2(0.33,0.33), RED);
 }
 
 void ui_label::update()
@@ -43,4 +43,17 @@ void ui_label::mouseDoubleClick(QMouseEvent *mouse)
 void ui_label::mouseMove(QMouseEvent *mouse)
 {
     Q_UNUSED(mouse);
+}
+
+
+void ui_double_label::render(abstract_engine &eng)
+{
+    auto pos = get_position();
+    eng.drawText(text, pos, vec2(0.33,0.33), RED);
+    eng.drawText(text, pos, vec2(0.33,0.33), RED);
+}
+
+void ui_double_label::update()
+{
+
 }

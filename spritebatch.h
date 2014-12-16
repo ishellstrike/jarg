@@ -51,13 +51,13 @@ public:
     void setUniform(QMatrix4x4 mat);
     void setScissor(vec2 loc, vec2 size);
     void resetScissor();
-    void drawText(const QString &text, vec2 pos, vec2 size, vec4 col = WHITE);
+    vec2 drawText(const QString &text, vec2 pos, vec2 size, vec4 col = WHITE);
     void initFreeType();
 private:
 
     FT_Face m_ftFace;
     void drawQuadText(vec2 loc, vec2 size, const Texture &tex, vec4 col = WHITE);
-    void renderText(const char *text, float x, float y, float sx, float sy, vec4 col_ = WHITE);
+    vec2 renderText(const char *text, float x, float y, float sx, float sy, vec4 col_ = WHITE);
 };
 
 #endif // SPRITEBATCH_H

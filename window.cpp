@@ -21,6 +21,11 @@ MainWindow::MainWindow(QScreen *screen) :
     BlockDataBase::instance()->load();
     ItemDataBase::instance()->load();
 
+    worker = new LevelWorker();
+    level = new Level();
+    level->setWorker(worker);
+    level->preloadRange(0,0,5);
+
     this->resize(500,500);
 
     setSurfaceType(OpenGLSurface);
@@ -55,7 +60,7 @@ MainWindow::MainWindow(QScreen *screen) :
 
     timer = new QTimer();
     connect(timer, SIGNAL(timeout()), SLOT(renderNow()));
-    //timer->start(100);
+    timer->start(18);
 
     batch = new SpriteBatch(m_funcs, m_context);
     drawer = batch;
@@ -69,8 +74,9 @@ MainWindow::MainWindow(QScreen *screen) :
 
     ui_window *w = new ui_window(ui_system);
     ui_label *l = new ui_label(w);
-    l->loc = vec2(100,100);
+    l->loc = vec2(10,50);
     l->text = "123";
+    w->title = "123";
 
     w = new ui_window(ui_system);
     l = new ui_label(w);
@@ -100,9 +106,13 @@ void MainWindow::render()
     batch->drawQuad(vec2(50,50), vec2(200,200), *JAtlas::instance()->tex);
     //batch->drawRect(vec2(10,10), vec2(100,100), Qt::white);
 
+    level->render(batch);
+
     batch->render();
     ui_system->render(*batch);
     ww->title = QString("%1ms").arg(last_frame);
+
+
 
     batch->render();
     m_program->release();
@@ -272,6 +282,8 @@ MainWindow::~MainWindow()
     delete timer;
     delete m_timeMonitor;
     delete ui_system;
+    delete level;
+    delete worker;
 }
 
 abstract_engine *MainWindow::drawer = nullptr;

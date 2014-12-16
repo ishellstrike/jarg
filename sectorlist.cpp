@@ -3,7 +3,6 @@
 
 SectorList::SectorList()
 {
-
 }
 
 SectorList::~SectorList()
@@ -13,6 +12,7 @@ SectorList::~SectorList()
         delete a;
         a = nullptr;
     }
+    qDebug() << data.size() << "sector list destructor";
     data.clear();
 }
 

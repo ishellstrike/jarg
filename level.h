@@ -10,8 +10,9 @@ class Level : public QObject
     LevelWorker *worker; //owned by game instance
 public:
     explicit Level(QObject *parent = 0);
-    void render();
+    void render(abstract_engine *eng);
     void preload(int x, int y);
+    void preloadRange(int x, int y, int r);
     void setWorker(LevelWorker *w);
 signals:
 

@@ -14,6 +14,7 @@ public:
 
     void render(abstract_engine &eng);
     void update();
+    QString text = "Button";
 
 public slots:
     void keyEvent(QKeyEvent *key);

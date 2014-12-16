@@ -12,6 +12,8 @@ void ui_button::render(abstract_engine &eng)
 {
     auto pos = get_position();
     drawBox(pos, size, !aimed ? LIGHTGRAY : WHITE, eng);
+    if(!text.isEmpty())
+        eng.drawText(text, pos + vec2(3, -5), vec2(0.33,0.33), BLACK);
 }
 
 void ui_button::update()
@@ -56,6 +58,6 @@ void ui_close_button::render(abstract_engine &eng)
 {
     ui_button::render(eng);
     auto p = get_position();
-    drawLineEx(p, size - vec2(1, 0), LIGHTGRAY/2, eng, 3, vec2(0, 0), vec2(0.5, 0.5), vec2(1, 0));
-    drawLineEx(p, size - vec2(1, 0), LIGHTGRAY/2, eng, 3, vec2(0, 1), vec2(0.5, 0.5), vec2(1, 1));
+    drawLineEx(p, size - vec2(1, 0), LIGHTGRAY/2, eng, 2, 3, vec2(0, 0), vec2(0.5, 0.5), vec2(1, 0));
+    drawLineEx(p, size - vec2(1, 0), LIGHTGRAY/2, eng, 2, 3, vec2(0, 1), vec2(0.5, 0.5), vec2(1, 1));
 }

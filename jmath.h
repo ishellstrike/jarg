@@ -11,7 +11,11 @@ typedef vec4 col4;
 #define WHITE vec4(1,1,1,1)
 #define BLACK vec4(0,0,0,1)
 #define LIGHTGRAY vec4(0.8,0.8,0.8,1)
-#define vec2hash(x, y) ((uint)x ^ ((uint)y))
+template < typename T >
+inline uint vec2hash(T x, T y)
+{
+    return x + (y << 16);
+}
 
 inline float dot3( vec3 g, float x, float y, float z )
 {
@@ -36,6 +40,18 @@ template < typename _Ty >
 inline _Ty fade( _Ty t )
 {
     return t * t * t * ( t * ( t * 6 - 15 ) + 10 );
+}
+
+template < typename T >
+inline T max(T a, T b)
+{
+    return a > b ? a : b;
+}
+
+template < typename T >
+inline T min(T a, T b)
+{
+    return a < b ? a : b;
 }
 
 #endif // JMATH_H

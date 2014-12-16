@@ -18,7 +18,7 @@ typedef QOpenGLFunctions_2_1 JGraphics;
 #define INCLUDIFY(x) <##x##>
 #define INCLUDIFYMACRO(y) INCLUDIFY(y)
 
-inline void loadShader(char *name_ver, char *name_frag, QOpenGLShaderProgram *program)
+inline void loadShader(const QString &name_ver, const QString &name_frag, QOpenGLShaderProgram *program)
 {
     if(program->addShaderFromSourceFile(QOpenGLShader::Vertex, name_ver))
         qDebug() << name_ver << "OK";
@@ -39,7 +39,7 @@ public:
     virtual void setScissor(vec2 loc, vec2 size) = 0;
     virtual void resetScissor() = 0;
     virtual void render() = 0;
-    virtual void drawText(const QString &text, vec2 pos, vec2 size, vec4 col = WHITE) = 0;
+    virtual vec2 drawText(const QString &text, vec2 pos, vec2 size, vec4 col = WHITE) = 0;
 };
 
 

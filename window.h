@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "graphics.h"
+#include "level.h"
 #include "spritebatch.h"
 #include "ui_window.h"
 #include <QMatrix4x4>
@@ -31,6 +32,8 @@ public:
 
     static abstract_engine *drawer;
     static window_system *ui_system;
+    Level *level;
+    LevelWorker *worker;
 
     QTimer *timer;
 

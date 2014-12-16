@@ -27,4 +27,21 @@ signals:
     void onPress();
 };
 
+class ui_double_label : public ui_label
+{
+    Q_OBJECT
+public:
+    explicit ui_double_label(ui_container *parent = 0);
+    ui_double_label (ui_double_label *copy);
+
+    void render(abstract_engine &eng);
+    void update();
+
+    QString text;
+    QString text2;
+
+signals:
+    void onPress();
+};
+
 #endif // UI_LABEL_H
