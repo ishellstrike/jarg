@@ -1,21 +1,15 @@
 QT           += opengl widgets network script core
 CONFIG       += c++11
 
-LIBS += -lfreetype
+unix: LIBS += -lfreetype
 
 TARGET = jarg
 CONFIG   += qt
 TEMPLATE = app
-SOURCES += main.cpp \
-    ui_label.cpp \
-    ui_label.cpp \
-    ui_element.cpp \
-    settings.cpp \
-    settings.cpp
 
 INCLUDEPATH += /usr/include/freetype2
 
-HEADERS       = window.h \
+HEADERS       = \
     jlogger.h \
     block.h \
     object.h \
@@ -40,18 +34,16 @@ HEADERS       = window.h \
     sectorrenderer.h \
     agent.h \
     classicnoise.h \
-    spritebatch.h \
-    graphics.h \
     parser.h \
     ui_window.h \
     ui_container.h \
     ui_button.h \
     jmath.h \
-    graphics_helper.h \
     ui_label.h \
-    settings.h
+    settings.h \
+    glwidget.h
+
 SOURCES       = main.cpp \
-                window.cpp \
     block.cpp \
     object.cpp \
     item.cpp \
@@ -75,11 +67,12 @@ SOURCES       = main.cpp \
     sectorrenderer.cpp \
     agent.cpp \
     classicnoise.cpp \
-    spritebatch.cpp \
     ui_window.cpp \
     ui_container.cpp \
     ui_button.cpp \
-    ui_label.cpp
+    ui_label.cpp \
+    settings.cpp \
+    glwidget.cpp
 
 OTHER_FILES += \
     test.js \

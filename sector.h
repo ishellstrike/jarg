@@ -5,7 +5,6 @@
 #include <QObject>
 #include <QVector>
 #include "agent.h"
-#include "graphics.h"
 #include "vertex.h"
 
 #define RX 25
@@ -21,9 +20,8 @@ class Sector : public QObject
 public:
     Sector(int x_, int y_);
     virtual ~Sector();
-    void render(abstract_engine *eng);
-    vec2 offset;
-    void Rebuild();
+    void render(QPainter *eng);
+    QPoint offset;
 signals:
 
 public slots:

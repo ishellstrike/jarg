@@ -9,12 +9,12 @@ Level::Level(QObject *parent) :
     qDebug() << "level init";
 }
 
-void Level::render(abstract_engine *eng)
+void Level::render(QPainter *eng)
 {
     for(Sector *a : toRender->data)
     {
-        if((a->offset.x()*32*32 <= Settings::instance()->resolution.x() && a->offset.x()*32*32 >= 0) ||
-           (a->offset.y()*32*32 <= Settings::instance()->resolution.y() && a->offset.y()*32*32 >= 0))
+        if((a->offset.x()*32*32 <= Settings::instance()->resolution.width() && a->offset.x()*32*32 >= 0) ||
+           (a->offset.y()*32*32 <= Settings::instance()->resolution.height() && a->offset.y()*32*32 >= 0))
         a->render(eng);
     }
 }

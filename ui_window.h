@@ -14,12 +14,12 @@ public:
     explicit ui_window(ui_container *parent = 0);
 
     bool dragged = false;
-    vec2 drag_point = vec2(0,0);
+    QPoint drag_point = QPoint(0,0);
     bool closing = false;
-    col4 color = col4(1,1,1,1);
-    col4 second_color = col4(0.5,0.5,0.5,1);
+    QColor color = QColor(1,1,1,1);
+    QColor second_color = QColor(0.5,0.5,0.5,1);
     bool nogui = false;
-    void render(abstract_engine &eng);
+    void render(QPainter &eng);
     ui_close_button *close_b;
     QString title;
 public slots:

@@ -3,7 +3,8 @@
 
 #include <QMutex>
 #include "jmath.h"
-
+#define OUTLINE 2
+#define HEADER 20
 
 class Settings : public QObject
 {
@@ -34,7 +35,10 @@ public:
         mutex.unlock();
         qDebug() << "droping settings instance";
     }
-    vec2 resolution = vec2(500, 500);
+    QSize resolution = QSize(500, 500);
+    QColor ui_body = Qt::lightGray;
+    QColor ui_header = Qt::gray;
+    QColor ui_outline = Qt::black;
 private:
     static Settings *m_inst;
     Settings();

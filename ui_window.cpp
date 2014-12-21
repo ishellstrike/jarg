@@ -1,16 +1,15 @@
 #include "ui_button.h"
 #include "ui_window.h"
-#include "window.h"
-#include "graphics_helper.h"
 #include "jmath.h"
+#include "settings.h"
 
 void ui_window::create()
 {
-    loc = vec2(100, 100);
-    size = vec2(200, 200);
+    loc = QPoint(100, 100);
+    size = QSize(200, 200);
     close_b = new ui_close_button(this);
-    close_b->loc = vec2(size.x() - 18 - OUTLINE*1.5, OUTLINE*1.5);
-    close_b->size = vec2(18, 18);
+    close_b->loc = QPoint(size.width() - 19 - OUTLINE*1.5, OUTLINE);
+    close_b->size = QSize(18, 18);
     close_b->text = "";
     connect(close_b, SIGNAL(onPress()), this, SLOT(close()));
     title = "window";
@@ -22,41 +21,32 @@ ui_window::ui_window(ui_container *parent) :
     create();
 }
 
-void ui_window::render(abstract_engine &eng)
+void ui_window::render(QPainter &eng)
 {
     auto pos = get_position();
-    drawBox(pos, size, color, eng);
-    drawBoxScissor(pos, vec2(size.x(), HEADER + OUTLINE*2), color, second_color, eng);
-    eng.drawText(title, pos + vec2(OUTLINE, -OUTLINE), vec2(0.33,0.33), BLACK);
-    drawBoxScissor(pos + vec2(OUTLINE*2, OUTLINE*2 + HEADER),
-                   size - vec2((OUTLINE*2)*2, OUTLINE*4 + HEADER), color, eng);
+    auto set = Settings::instance();
+    eng.setPen(set->ui_outline);
+    eng.setBrush(QBrush(set->ui_body, Qt::SolidPattern));
 
-    /*
-     *
-     *
-     *
-     *
-     *
-     */
+    eng.drawRect(QRect(pos, size));
+    eng.drawLine(pos + QPoint(0, HEADER), pos + QPoint(size.width(), HEADER));
+    eng.drawText(QRect(pos + QPoint(3,0), QSize(size.width(), HEADER)), title);
 
     for(ui_element *i : elements)
     {
         i->render(eng);
     }
-    eng.resetScissor();
-    close_b->render(eng);
-    eng.resetScissor();
 }
 
 void ui_window::mousePress(QMouseEvent *mouse)
 {
     auto p = get_position();
     auto m = mouse->pos();
-    auto s = p + vec2(size.x(), HEADER + OUTLINE*2);
-    if(m.x() > p.x() && m.y() > p.y() && m.x() < s.x() && m.y() < s.y())
+    QRect rect(p, QSize(size.width(), HEADER + OUTLINE*2));
+    if(rect.contains(m))
     {
         dragged = true;
-        drag_point = vec2(m.x(), m.y()) - p;
+        drag_point = QPoint(m.x(), m.y()) - p;
     }
     else
         dragged = false;
@@ -72,7 +62,7 @@ void ui_window::mouseRelease(QMouseEvent *mouse)
 void ui_window::mouseMove(QMouseEvent *mouse)
 {
     if (dragged)
-        loc  = vec2(mouse->pos().x(), mouse->pos().y()) - drag_point;
+        loc  = QPoint(mouse->pos().x(), mouse->pos().y()) - drag_point;
     ui_container::mouseMove(mouse);
 }
 
@@ -102,7 +92,7 @@ void window_system::init()
 {
    auto a = new ui_window(this);
    auto b = new ui_button(a);
-   b->loc = vec2(70, 50);
-   b->size = vec2(100,20);
+   b->loc = QPoint(70, 50);
+   b->size = QSize(100,20);
 }
 

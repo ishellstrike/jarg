@@ -19,31 +19,6 @@ void AddBlockGeom(int i, int j)
 
 }
 
-void Sector::Rebuild()
-{
-    auto comp_off = offset*QVector3D(RX, 0, RY);
-    for(int i =0;i<RX;i++)
-        for(int j=0;j<RY;j++)
-        {
-            auto block_data = m_blocks[XY(i,j)].data();
-            auto m_source = JAtlas::instance()->sources[block_data->texture()];
-
-            int last = geom.size();
-
-            geom.push_back(Vertex(comp_off + QVector3D(i, 0, j), UP, QVector2D()));
-            geom.push_back(Vertex(comp_off + QVector3D(i + 1, 0, j), UP, QVector2D()));
-            geom.push_back(Vertex(comp_off + QVector3D(i, 0, j + 1), UP, QVector2D()));
-            geom.push_back(Vertex(comp_off + QVector3D(i + 1, 0, j + 1), UP, QVector2D()));
-
-            indeces.push_back(last);
-            indeces.push_back(last + 1);
-            indeces.push_back(last + 2);
-            indeces.push_back(last + 1);
-            indeces.push_back(last + 3);
-            indeces.push_back(last + 2);
-        }
-}
-
 Sector::Sector(int x_, int y_) :
     offset(x_,y_)
 {
@@ -56,12 +31,12 @@ Sector::~Sector()
     m_blocks = nullptr;
 }
 
-void Sector::render(abstract_engine *eng)
+void Sector::render(QPainter *eng)
 {
     for(int i = 0; i < RX; i++)
         for(int j = 0; j < RY; j++)
         {
-            eng->drawQuadAtlas(vec2(i*32 + offset.x()*32*32, j*32 + offset.y()*32*32), vec2(32,32), "error");
+           //eng->drawQuadAtlas(vec2(i*32 + offset.x()*32*32, j*32 + offset.y()*32*32), vec2(32,32), "error");
         }
 }
 

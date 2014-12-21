@@ -5,7 +5,7 @@
 #include <QDebug>
 #define size 2048
 
-void JAtlas::load(QOpenGLContext *context)
+void JAtlas::load(QGLContext *context)
 {
     QDir items_dir = QDir::current();
     items_dir.cd("data/textures");
@@ -30,6 +30,7 @@ void JAtlas::load(QOpenGLContext *context)
         i++;
     }
 
+    image->mirrored(true,true);
     tex = new Texture();
     tex->Load(image);
 

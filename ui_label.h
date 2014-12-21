@@ -11,7 +11,7 @@ public:
     explicit ui_label(ui_container *parent = 0);
     ui_label (ui_label *copy);
 
-    void render(abstract_engine &eng);
+    void render(QPainter &eng);
     void update();
 
     QString text;
@@ -34,7 +34,7 @@ public:
     explicit ui_double_label(ui_container *parent = 0);
     ui_double_label (ui_double_label *copy);
 
-    void render(abstract_engine &eng);
+    void render(QPainter &eng);
     void update();
 
     QString text;

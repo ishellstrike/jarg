@@ -12,7 +12,7 @@ public:
     explicit ui_button(ui_container *parent = 0);
     ui_button (ui_button *copy);
 
-    void render(abstract_engine &eng);
+    void render(QPainter &eng);
     void update();
     QString text = "Button";
 
@@ -32,7 +32,7 @@ class ui_close_button : public ui_button
     Q_OBJECT
 public:
     explicit ui_close_button(ui_container *parent = 0);
-    void render(abstract_engine &eng);
+    void render(QPainter &eng);
 };
 
 #endif // UI_BUTTON_H

@@ -1,19 +1,20 @@
 #include "ui_button.h"
-#include "window.h"
-#include "graphics_helper.h"
+#include "settings.h"
 
 ui_button::ui_button(ui_container *parent) :
     ui_element(parent)
 {
-    size = vec2(50, 20);
+    size = QSize(50, 20);
 }
 
-void ui_button::render(abstract_engine &eng)
+void ui_button::render(QPainter &eng)
 {
     auto pos = get_position();
-    drawBox(pos, size, !aimed ? LIGHTGRAY : WHITE, eng);
+    auto set = Settings::instance();
+    eng.setBrush(QBrush(aimed ? set->ui_body.light() : set->ui_body, Qt::SolidPattern));
+    eng.drawRect(QRect(pos, size));
     if(!text.isEmpty())
-        eng.drawText(text, pos + vec2(3, -5), vec2(0.33,0.33), BLACK);
+        eng.drawText(QRect(pos + QPoint(3,0), size), text);
 }
 
 void ui_button::update()
@@ -54,10 +55,13 @@ ui_close_button::ui_close_button(ui_container *parent) :
 
 }
 
-void ui_close_button::render(abstract_engine &eng)
+void ui_close_button::render(QPainter &eng)
 {
     ui_button::render(eng);
     auto p = get_position();
-    drawLineEx(p, size - vec2(1, 0), LIGHTGRAY/2, eng, 2, 3, vec2(0, 0), vec2(0.5, 0.5), vec2(1, 0));
-    drawLineEx(p, size - vec2(1, 0), LIGHTGRAY/2, eng, 2, 3, vec2(0, 1), vec2(0.5, 0.5), vec2(1, 1));
+    auto set = Settings::instance();
+    eng.drawRect(QRect(p, size));
+   // eng.drawLine
+    //drawLineEx(p, size - vec2(1, 0), set->ui_outline, eng, 2, 3, vec2(0, 0), vec2(0.5, 0.5), vec2(1, 0));
+   // drawLineEx(p, size - vec2(1, 0), set->ui_outline, eng, 2, 3, vec2(0, 1), vec2(0.5, 0.5), vec2(1, 1));
 }

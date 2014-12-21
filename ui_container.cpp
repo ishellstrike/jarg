@@ -23,8 +23,8 @@ void ui_container::mousePress(QMouseEvent *mouse)
         auto i = elements[cou];
 
         auto p = i->get_position();
-        auto s = p + i->size;
-        if(mouse->pos().x() > p.x() && mouse->pos().y() > p.y() && mouse->pos().x() < s.x() && mouse->pos().y() < s.y())
+        QRect rect(p, i->size);
+        if(rect.contains(mouse->pos()))
         {
             for(int j = cou; j < elements.size() - 1; j++)
             {
@@ -41,8 +41,6 @@ void ui_container::mouseRelease(QMouseEvent *mouse)
 {
     for(ui_element *i : elements)
     {
-        auto p = i->get_position();
-        auto s = p + i->size;
         i->mouseRelease(mouse);
     }
 }
@@ -51,9 +49,7 @@ void ui_container::mouseDoubleClick(QMouseEvent *mouse)
 {
     for(ui_element *i : elements)
     {
-        auto p = i->get_position();
-        auto s = p + i->size;
-        if(mouse->pos().x() > p.x() && mouse->pos().y() > p.y() && mouse->pos().x() < s.x() && mouse->pos().y() < s.y())
+        if(QRect(get_position(), size).contains(mouse->pos()))
         {
             i->mouseDoubleClick(mouse);
             break;
@@ -65,9 +61,7 @@ void ui_container::mouseMove(QMouseEvent *mouse)
 {
     for(ui_element *i : elements)
     {
-        auto p = i->get_position();
-        auto s = p + i->size;
-        if(mouse->pos().x() > p.x() && mouse->pos().y() > p.y() && mouse->pos().x() < s.x() && mouse->pos().y() < s.y())
+        if(QRect(i->get_position(), i->size).contains(mouse->pos()))
             i->aimed = true;
         else
             i->aimed = false;
@@ -76,7 +70,7 @@ void ui_container::mouseMove(QMouseEvent *mouse)
     }
 }
 
-void ui_container::render(abstract_engine &eng)
+void ui_container::render(QPainter &eng)
 {
     for(ui_element *i : elements)
     {
@@ -112,7 +106,7 @@ ui_element::~ui_element()
 {
 }
 
-vec2 ui_element::get_position()
+QPoint ui_element::get_position()
 {
     if(ui_parent)
     {

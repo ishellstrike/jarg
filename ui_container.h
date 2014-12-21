@@ -2,7 +2,6 @@
 #define UI_CONTAINER_H
 #include <QVector>
 #include <QObject>
-#include "graphics.h"
 #include "jtexture.h"
 
 class ui_container;
@@ -17,13 +16,13 @@ public:
     //call automatically via QObject destruction
     ~ui_element();
 
-    vec2 size;
+    QSize size;
     bool aimed;
 
-    virtual void render(abstract_engine &eng) = 0;
+    virtual void render(QPainter &eng) = 0;
     virtual void update() = 0;
-    vec2 get_position();
-    vec2 loc;
+    QPoint get_position();
+    QPoint loc;
 
 public slots:
     virtual void keyEvent(QKeyEvent *key) = 0;
@@ -45,7 +44,7 @@ public:
 
     QVector<ui_element *> elements;
 
-    void render(abstract_engine &eng);
+    void render(QPainter &eng);
     void update();
     void addElement(ui_element *element);
 public slots:

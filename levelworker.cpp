@@ -23,7 +23,7 @@ Sector *LevelWorker::getSector(int x, int y)
         sect = new Sector(x, y);
     else
         sect = active->data[vec2hash(x, y)];
-    sect->Rebuild();
+    //sect->Rebuild();
     active->data.insert(vec2hash(x, y), sect);
     return sect;
 }

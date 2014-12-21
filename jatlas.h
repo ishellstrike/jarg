@@ -31,7 +31,7 @@ public:
         return m_inst;
     }
 
-    void load(QOpenGLContext *context);
+    void load(QGLContext *context);
 
     static void drop()
     {
